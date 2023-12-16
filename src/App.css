@@ -1,0 +1,123 @@
+.App {
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.allpage{
+  display: flex;
+  flex-direction: column;
+  row-gap: 50px;
+  justify-content: center;
+  align-items: center;
+  justify-self: center;
+  width: 100%;
+  height: auto;
+}
+
+.scanner{
+  max-width: 768px;
+  height: auto;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #000000;
+}
+.scannervideo{
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  cursor: none;
+}
+
+.barcodesection{
+  font-size: larger;
+}
+
+
+/* Overall style for the app */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f4;
+  box-sizing: border-box;
+}
+
+
+.main {
+  padding: 20px;
+  margin-top: 15px;
+  
+}
+
+.btn {
+  background-color: #333;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.btn:hover {
+  background-color: #555;
+}
+
+.bluebtn{
+  background-color: rgb(147, 193, 249);
+  color: rgb(0, 0, 0);
+  border: hidden;
+  border-radius: 15px;
+  padding: 15px;
+  margin-top: 50px;
+  font-size: larger;
+  width: 200px;
+}
+
+
+.hidden{
+  display: none;
+}
+.visable{
+  display: block;
+}
+
+

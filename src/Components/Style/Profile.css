@@ -1,0 +1,39 @@
+.Profile{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.InfoDiv{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 50px;
+}
+.ImgDiv{
+    max-width: 300px;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.InfoChild{
+    border-bottom: 1px solid rgba(0, 0, 0, 0.37);
+    font-size: large;
+}
+
+.downloadbtn{
+    background-color: rgb(147, 249, 147);
+    color: rgb(0, 0, 0);
+    border: hidden;
+    border-radius: 15px;
+    padding: 15px;
+    margin-top: 50px;
+    font-size: larger;
+}

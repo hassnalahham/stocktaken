@@ -1,0 +1,24 @@
+.LatestDiv{
+    box-sizing: border-box;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    max-height: 65vh;
+    margin-top: 50px;
+   
+}
+.Latestchild{
+    border-bottom: 1px solid rgba(0, 0, 0, 0.37);
+    font-size: large;
+    box-sizing: border-box;
+}
+
+.deletebtn{
+    background-color: rgb(249, 133, 133);
+    color: rgb(0, 0, 0);
+    border: hidden;
+    border-radius: 15px;
+    padding: 15px;
+    margin-top: 20px;
+    font-size: larger;
+}
