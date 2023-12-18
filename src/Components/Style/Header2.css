@@ -24,6 +24,10 @@
 
   /* Media queries for responsiveness */
 @media screen and (max-width: 768px) {
+  .lastlink{
+    position: absolute;
+    bottom: 10px;
+  }
     .navbar{
         display: none;
     }
@@ -44,12 +48,12 @@
         color: white;
         display: flex;
         flex-direction: column;
-        row-gap: 30px;
+        row-gap: 10px;
         font-size: x-large;
         text-align: left;
         position: fixed;
         width: 60%;
-        padding: 0px 0 30px 20px;
+       
         z-index: 10000;
         height: 100%;
         right: 0;
@@ -71,6 +75,7 @@
       text-decoration: 2px underline;
       text-underline-offset: 5px;
       margin-top: 20px;
+      margin-left: 10px;
     }
     .mobilenavminu a {
         color: white;
@@ -80,4 +85,14 @@
       .mobilenavminu a:hover {
         text-decoration: underline;
       }
+
+      .navlink{
+        padding: 10px;
+      }
+    .activeRoute{
+      background-color: #4d4d4d;
+      padding: 10px;
+    }
+
+
 }

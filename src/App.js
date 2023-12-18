@@ -6,7 +6,6 @@ import Profile from './Components/Profile';
 //import Header from './Components/Header';
 import Header2 from './Components/Header2';
 import Footer from './Components/Footer';
-import Login from './Components/Login';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 
@@ -22,7 +21,6 @@ function App() {
             <Route path="/Codes" element={<Codes/>} />
             <Route path="/" element={<Scan/>} />
             <Route path="/Profile" element={<Profile/>} />
-            <Route path="/Login" element={<Login/>} />
           </Routes>
           </main>
         </Router>

@@ -30,24 +30,6 @@ function Profile() {
     fetchUserInfo();
   }, []);
 
-  const handleLogout = async () => {
-    try {
-      const response = await fetch('http://localhost/scannerapp/src/Components/Connection/Logout.php', {
-        method: 'POST',
-        credentials: 'include',
-      });
-  
-      if (response.ok) {
-        // Assuming a successful logout returns an empty response
-        // Redirect or perform any additional actions after successful logout
-        window.location.href = '/login'; // Change '/login' to your actual login page
-      } else {
-        console.error('Error logging out:', response.statusText);
-      }
-    } catch (error) {
-      console.error('Error logging out:', error);
-    }
-  };
   
 
   return (
@@ -80,9 +62,6 @@ function Profile() {
       <div>
         <button className='downloadbtn'>Download Codes</button>
       </div>
-      <button className='downloadbtn' onClick={handleLogout}>
-        Logout
-      </button>
     </div>
   );
 }

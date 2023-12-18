@@ -31,31 +31,36 @@ function Login() {
   };
 
   return (
-    <div className='Login'>
-      <h2>Login</h2>
-      <div>
-        <label htmlFor='username'>Username:</label>
-        <input
-          type='text'
-          id='username'
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
+    <div className='Loginpage'>
+      <div className='Loginheader'></div>
+      <div className='Login'>
+        <h2>Login</h2>
+        <div>
+          <label htmlFor='username'>Username:</label>
+          <input
+            type='text'
+            id='username'
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
+        <div>
+          <label htmlFor='password'>Password:</label>
+          <input
+            type='password'
+            id='password'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        {error && <p className='error'>{error}</p>}
+        <button className='loginbtn' onClick={handleLogin}>
+          Login
+        </button>
       </div>
-      <div>
-        <label htmlFor='password'>Password:</label>
-        <input
-          type='password'
-          id='password'
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </div>
-      {error && <p className='error'>{error}</p>}
-      <button className='loginbtn' onClick={handleLogin}>
-        Login
-      </button>
+      <div className='Loginfooter'></div>
     </div>
+    
   );
 }
 

@@ -15,6 +15,25 @@ function Header() {
     setIsOpen(false);
   };
 
+  const handleLogout = async () => {
+    try {
+      const response = await fetch('http://localhost/scannerapp/src/Components/Connection/Logout.php', {
+        method: 'POST',
+        credentials: 'include',
+      });
+  
+      if (response.ok) {
+        // Assuming a successful logout returns an empty response
+        // Redirect or perform any additional actions after successful logout
+        window.location.href = '/'; // Change '/login' to your actual login page
+      } else {
+        console.error('Error logging out:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+  };
+
   return (
     <>
       <header className="navbar">
@@ -34,7 +53,7 @@ function Header() {
             <Link to="./" onClick={CloseMenu} className={location.pathname === "/" ? "activeRoute" : "navlink"} >Scan</Link>
             <Link to="./Codes" onClick={CloseMenu} className={location.pathname === "/Codes" ? "activeRoute" : "navlink"} >Codes</Link>
             <Link to="./Profile" onClick={CloseMenu} className={location.pathname === "/Profile" ? "activeRoute" : "navlink"} >Profile</Link>
-            <Link to="./Login" onClick={CloseMenu} className={location.pathname === "/Login" ? "activeRoute" : "navlink"} >Login</Link>
+            <Link to="./Logout"  onClick={() => { CloseMenu(); handleLogout(); }}  className={location.pathname === "/Logout" ? "activeRoute" : "navlink lastlink"} >Logout</Link>
          </div>
          </>
          
