@@ -1,14 +1,18 @@
-import Barcoder from './BarcodeScanner';
+import React, { useState } from 'react';
+import Barcoder from './BarcoderScan';
 import LastAdded from './LeatestAdd';
 import Manually from './Manually';
-import React from 'react';
+
 function Scan() {
+  
+  
+
   return (
-     <>
-       <Barcoder/>
-       <LastAdded/>
-       <Manually/>
-     </>
+    <>
+      <Barcoder />
+      <LastAdded/>
+      <Manually />
+    </>
   );
 }
 

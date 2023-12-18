@@ -1,0 +1,18 @@
+@font-face {
+    font-family: 'LibreBarcode128';
+    src: url('../Assest/Fonts/LibreBarcode128-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Code 128';
+    src: url('../Assest/Fonts/code-128.woff2') format('woff2');
+  }
+
+.barcode39 {
+    font-family: 'Code 128' , sans-serif;
+    font-size: 6em;
+    border: 1px solid #ccc;
+    padding: 10px 0 20px 0;
+    margin-top: 10px;
+    height: 10vh;
+  }
