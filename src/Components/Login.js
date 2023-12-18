@@ -1,43 +1,32 @@
-// Import necessary dependencies
-import './Style/Login.css';
 import React, { useState } from 'react';
+import './Style/Login.css';
 
 function Login() {
-  // State to manage form input
-  const [formData, setFormData] = useState({ username: '', password: '' });
-  // State to manage login status and error messages
-  const [loginStatus, setLoginStatus] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  // Function to handle form input changes
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
-
-  // Function to handle form submission
   const handleLogin = async () => {
     try {
-      // Make an API request to your PHP backend for authentication
       const response = await fetch('http://localhost/scannerapp/src/Components/Connection/Login.php', {
         method: 'POST',
+        credentials: 'include',
         headers: {
-            'Content-Type': 'application/json',
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ username, password }),
       });
 
-      // Parse the response
       const data = await response.json();
 
-      // Check if authentication was successful
       if (data.success) {
-        setLoginStatus('Login successful');
+        // Redirect or perform any additional actions after successful login
+        window.location.href = '/profile'; // Change '/profile' to your actual profile page
       } else {
-        setLoginStatus('Invalid credentials. Please try again.');
+        setError('Invalid username or password');
       }
     } catch (error) {
-      console.error('Error during login:', error);
-      setLoginStatus('An error occurred. Please try again later.');
+      console.error('Error logging in:', error);
     }
   };
 
@@ -49,9 +38,8 @@ function Login() {
         <input
           type='text'
           id='username'
-          name='username'
-          value={formData.username}
-          onChange={handleInputChange}
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
         />
       </div>
       <div>
@@ -59,13 +47,14 @@ function Login() {
         <input
           type='password'
           id='password'
-          name='password'
-          value={formData.password}
-          onChange={handleInputChange}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
       </div>
-      <button onClick={handleLogin}>Login</button>
-      <p>{loginStatus}</p>
+      {error && <p className='error'>{error}</p>}
+      <button className='loginbtn' onClick={handleLogin}>
+        Login
+      </button>
     </div>
   );
 }

@@ -6,7 +6,7 @@ header("Access-Control-Allow-Credentials: true");
 header('Content-Type: application/json');
 
 // Replace these with your actual database credentials
-    $servername = 'localhost:3306';
+    $servername = 'localhost';
     $username = 'root';
     $password = '';
     $dbname = 'stocktaken';

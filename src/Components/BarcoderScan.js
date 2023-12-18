@@ -39,6 +39,7 @@ const BarcodeScanner = ({ onInsertionComplete }) => {
       // Send barcode data to the server using fetch or any other method
       fetch('http://localhost/scannerapp/src/Components/Connection/InsertBarcode.php', {
         method: 'POST',
+        credentials: 'include', // Include credentials
         headers: {
           'Content-Type': 'application/json',
         },

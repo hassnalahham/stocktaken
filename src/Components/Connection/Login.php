@@ -29,6 +29,21 @@ $result = $conn->query($sql);
 
 // Check if a matching user was found
 if ($result->num_rows > 0) {
+    // Fetch user details
+    $user = $result->fetch_assoc();
+
+    // Start the session
+    session_start();
+
+    // Set session variables
+    $_SESSION['isLoggedIn'] = true;
+    $_SESSION['userId'] = $user['user_id'];
+    $_SESSION['firstName'] = $user['first_name'];
+    $_SESSION['lastName'] = $user['last_name'];
+    $_SESSION['roll'] = $user['roll'];
+    $_SESSION['status'] = $user['status'];
+
+    
     echo json_encode(['success' => true]);
 } else {
     echo json_encode(['success' => false]);
