@@ -1,18 +1,35 @@
-.LatestDiv{
+.CodesDiv{
     box-sizing: border-box;
     overflow: auto;
     display: flex;
     flex-direction: column;
-    max-height: 65vh;
+    max-height: 52vh;
     margin-top: 50px;
    
 }
-.Latestchild{
+.CodesChild{
     border-bottom: 1px solid rgba(0, 0, 0, 0.37);
     font-size: large;
     box-sizing: border-box;
 }
 
+.CodesChild table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+.CodesChild table thead {
+    background-color: #f2f2f2;
+  }
+  
+.CodesChild table th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+
+  
 
 .deletebtn{
     background-color: rgb(249, 133, 133);

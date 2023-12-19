@@ -5,10 +5,11 @@ function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleLogin = async () => {
     try {
-      const response = await fetch('http://localhost/scannerapp/src/Components/Connection/Login.php', {
+      const response = await fetch('http://192.168.1.134/scannerapp/src/Components/Connection/Login.php', {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -18,11 +19,19 @@ function Login() {
       });
 
       const data = await response.json();
-
+        // Check if there is an error in the server response
+        if (data.status === 'error') {
+          // Set the error message with the user's first name
+          setErrorMessage(data.message);
+        } else {
+          // Clear any previous error messages
+          setErrorMessage('');
+        }
       if (data.success) {
         // Redirect or perform any additional actions after successful login
         window.location.href = '/profile'; // Change '/profile' to your actual profile page
-      } else {
+      } 
+      if(data.success == false) {
         setError('Invalid username or password');
       }
     } catch (error) {
@@ -32,6 +41,12 @@ function Login() {
 
   return (
     <div className='Loginpage'>
+       {errorMessage && (
+        <div className="error-popup">
+          <p>{errorMessage}</p>
+          <button onClick={() => setErrorMessage('')}>Close</button>
+        </div>
+      )}
       <div className='Loginheader'></div>
       <div className='Login'>
         <h2>Login</h2>

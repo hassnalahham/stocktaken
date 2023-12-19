@@ -14,7 +14,7 @@ const Index = () => {
     // Fetch user information from the server
     const fetchUserInfo = async () => {
       try {
-        const response = await fetch('http://localhost/scannerapp/src/Components/Connection/GetProfile.php', {
+        const response = await fetch('http://192.168.1.134/scannerapp/src/Components/Connection/GetProfile.php', {
           method: 'GET',
           credentials: 'include',
         });

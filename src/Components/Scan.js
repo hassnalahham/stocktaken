@@ -1,7 +1,6 @@
 import React from 'react';
 import Barcoder from './BarcoderScan';
 import LastAdded from './LeatestAdd';
-import Manually from './Manually';
 
 function Scan() {
   
@@ -11,7 +10,6 @@ function Scan() {
     <>
       <Barcoder />
       <LastAdded/>
-      <Manually />
     </>
   );
 }

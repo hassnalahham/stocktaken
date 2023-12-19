@@ -1,5 +1,5 @@
 <?php
-header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Origin: http://192.168.1.134:3000");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Access-Control-Allow-Credentials: true");
@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 // Assuming you have a database connection established
 // Replace 'your_database_connection' with your actual connection details
-$conn = new mysqli('localhost:3306', 'root', '', 'stocktaken');
+$conn = new mysqli('localhost', 'root', '', 'stocktaken');
 
 // Check connection
 if ($conn->connect_error) {
@@ -31,20 +31,23 @@ $result = $conn->query($sql);
 if ($result->num_rows > 0) {
     // Fetch user details
     $user = $result->fetch_assoc();
+    if($user['status'] === 'Active'){
+        // Start the session
+        session_start();
 
-    // Start the session
-    session_start();
+        // Set session variables
+        $_SESSION['isLoggedIn'] = true;
+        $_SESSION['userId'] = $user['user_id'];
+        $_SESSION['firstName'] = $user['first_name'];
+        $_SESSION['lastName'] = $user['last_name'];
+        $_SESSION['roll'] = $user['roll'];
+        $_SESSION['status'] = $user['status'];
 
-    // Set session variables
-    $_SESSION['isLoggedIn'] = true;
-    $_SESSION['userId'] = $user['user_id'];
-    $_SESSION['firstName'] = $user['first_name'];
-    $_SESSION['lastName'] = $user['last_name'];
-    $_SESSION['roll'] = $user['roll'];
-    $_SESSION['status'] = $user['status'];
 
-    
-    echo json_encode(['success' => true]);
+        echo json_encode(['success' => true]);
+    } else {
+        echo json_encode(['status' => 'error', 'message' => 'Your account is disabled please try again later']);
+    }
 } else {
     echo json_encode(['success' => false]);
 }

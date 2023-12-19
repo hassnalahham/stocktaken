@@ -1,51 +1,144 @@
-import './Style/LeatestAdd.css';
 import React, { useState, useEffect } from 'react';
-
+import './Style/Codes.css';
 
 function Codes() {
-
   const [latestBarcodes, setLatestBarcodes] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedBarcode, setSelectedBarcode] = useState(null);
+  const [selectedQty, setSelectedQty] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const openManuallyWindow = (barcode) => {
+    setSelectedBarcode(barcode.barcode);
+    setSelectedQty(barcode.qty);
+    setIsOpen(true);
+  };
+
+  const closeManuallyWindow = () => {
+    setSelectedBarcode(null);
+    setIsOpen(false);
+  };
+
+  const handleDelete = (option) => {
+    console.log(`Deleting ${option} for barcode ${selectedBarcode}`);
+      fetch('http://192.168.1.134/scannerapp/src/Components/Connection/DeleteBarcode.php', {
+      method: 'POST',
+      credentials: 'include', // Include credentials
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ selectedBarcode, action: option }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Server response:', data);
+
+        // Check if there is an error in the server response
+        if (data.status === 'error') {
+          // Set the error message with the user's first name
+          setErrorMessage(data.message);
+        } else {
+          // Clear any previous error messages
+          setErrorMessage('');
+        }
+      })
+      .catch(error => {
+        console.error('Error sending barcode to server:', error);
+        // Set an error message for network or server errors
+        setErrorMessage('An error occurred while communicating with the server.');
+      });
+    // After deletion, close the window
+    closeManuallyWindow();
+  };
 
   const fetchLatestBarcodes = () => {
     // Fetch the latest barcodes from the server
-    fetch('http://localhost/scannerapp/src/Components/Connection/GetGroupedBarcode.php')
-      .then(response => response.json())
-      .then(data => {
-        setLatestBarcodes(data); // Assuming the server response is an array of barcode strings
+    fetch('http://192.168.1.134/scannerapp/src/Components/Connection/GetGroupedBarcode.php', {
+      method: 'GET',
+      credentials: 'include',
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
       })
-      .catch(error => {
+      .then((data) => {
+        setLatestBarcodes(data);
+      })
+      .catch((error) => {
         console.error('Error fetching latest barcodes:', error);
       });
   };
 
   useEffect(() => {
-    // Fetch initially
     fetchLatestBarcodes();
 
-    // Set up polling with a specified interval (e.g., every 5 seconds)
     const intervalId = setInterval(() => {
       fetchLatestBarcodes();
-    }, 500); // Adjust the interval as needed (in milliseconds)
+    }, 500);
 
-    // Clean up the interval when the component is unmounted
-    return () => clearInterval(intervalId);
-  }, []); // The empty dependency array ensures the effect runs only once on mount
-
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
 
   return (
     <div>
-      <div>
-          <button className='deletebtn'>Delete Last Code</button>
-      </div>
-      <div className='LatestDiv'>
-      {latestBarcodes .map((barcode, index) => (
-        <div key={index} className='Latestchild'>
-          <p>{barcode}</p>
+      <h1>Your Barcodes</h1>
+      <p>Press on the barcode to erase</p>
+      {/* ... (other JSX code) */}
+      <div className='CodesDiv'>
+        <div className='CodesChild'>
+          <table>
+            {/* ... (your existing table structure) */}
+            <tbody>
+              {Array.isArray(latestBarcodes) &&
+                latestBarcodes.map((barcode, index) => (
+                  <tr key={index} onClick={() => openManuallyWindow(barcode)}>
+                    <td>{barcode.barcode}</td>
+                    <td style={{ textAlign: 'right' }}>{barcode.qty}</td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
         </div>
-         ))}
       </div>
+      <>
+        {isOpen ? (
+          <>
+            <div className='overlay' onClick={closeManuallyWindow}></div>
+            <div className='Add-Manually-Window'>
+              <h1>Delete</h1>
+              <button className='CloseWindow' onClick={closeManuallyWindow}>
+                X
+              </button>
+              <p>Are you sure you want to delete <br /> <b>{selectedBarcode}</b>  ?</p>
+              {selectedBarcode && (
+                <>
+                  {selectedQty > 0 ? (
+                    <div>
+                    <button className='deletebtn' onClick={() => handleDelete('DeleteOnce')}>
+                      Delete 1 Qty
+                    </button>
+                    <button className='deletebtn' onClick={() => handleDelete('DeleteBarcode')}>
+                      Delete Barcode
+                    </button>
+                    </div>
+                  ) : (
+                    <div>
+                    <button className='deletebtn' onClick={() => handleDelete('DeleteBarcode')}>
+                      Delete Barcode
+                    </button>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          </>
+        ) : null}
+      </>
     </div>
-     
   );
 }
 

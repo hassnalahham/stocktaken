@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Origin: http://192.168.1.134:3000");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Access-Control-Allow-Credentials: true");
@@ -14,8 +14,10 @@ $data = json_decode(file_get_contents('php://input'), true);
 if (isset($data['barcode'])) {
     $barcode = $data['barcode'];
     $userId = $_SESSION['userId'];
+    $qty = isset($data['quantity']) ? $data['quantity'] : 1;
+    
     // Connect to the database (replace with your database credentials)
-    $servername = 'localhost:3306';
+    $servername = 'localhost';
     $username = 'root';
     $password = '';
     $dbname = 'stocktaken';
@@ -27,27 +29,45 @@ if (isset($data['barcode'])) {
         die('Connection failed: ' . $conn->connect_error);
     }
 
-    $sql = "SELECT * FROM users WHERE user_id='". $_SESSION['userId']  ."'";
-    $result = $conn->query($sql);
-    $user = $result->fetch_assoc();
-    $status = $user['status'];
+    // Check if the barcode is already associated with any user
+    $checkSql = "SELECT * FROM barcodes WHERE barcode = '$barcode'";
+    $checkResult = $conn->query($checkSql);
 
+    if ($checkResult->num_rows > 0) {
+        $existingBarcode = $checkResult->fetch_assoc();
+        $existingUserId = $existingBarcode['user_id'];
 
-    if($status === "Active"){
-        // Barcode does not exist, insert new row with quantity 1
-        $insertSql = "INSERT INTO barcodes (barcode, user_id) VALUES ('$barcode', '$userId')";
-        if ($conn->query($insertSql) === TRUE) {
-            $response = ['status' => 'success', 'message' => 'New barcode inserted with quantity 1'];
-        } else {
-            $response = ['status' => 'error', 'message' => 'Error inserting new barcode: ' . $conn->error];
+        if ($existingUserId !== $userId) {
+            // Barcode already associated with a different user
+            $getUserSql = "SELECT concat(first_name,' ',last_name)  as fullname FROM users WHERE user_id = '$existingUserId'";
+            $getUserResult = $conn->query($getUserSql);
+
+            if ($getUserResult->num_rows > 0) {
+                $existingUser = $getUserResult->fetch_assoc();
+                $existingUserName = $existingUser['fullname'];
+                $response = ['status' => 'error', 'message' => "This barcode is already associated with $existingUserName."];
+            } else {
+                $response = ['status' => 'error', 'message' => 'Error retrieving user information: ' . $conn->error];
+            }
         }
-    }else{
-        $response = ['status' => 'error', 'message' => 'Account Not Active'];
+     
+     if ($existingUserId === $userId) {
+            $insertSql = "INSERT INTO barcodes (barcode, qty, user_id) VALUES ('$barcode', $qty, '$userId')";
+            if ($conn->query($insertSql) === TRUE) {
+                $response = ['status' => 'success', 'message' => 'New barcode inserted with quantity "'. $qty .'"'];
+            } else {
+                $response = ['status' => 'error', 'message' => 'Error inserting new barcode: ' . $conn->error];
+            }
+        }
     }
-
-       
-    
-
+    else{
+         $insertSql = "INSERT INTO barcodes (barcode, qty, user_id) VALUES ('$barcode', $qty, '$userId')";
+         if ($conn->query($insertSql) === TRUE) {
+             $response = ['status' => 'success', 'message' => 'New barcode inserted with quantity "'. $qty .'" '];
+         } else {
+             $response = ['status' => 'error', 'message' => 'Error inserting new barcode: ' . $conn->error];
+         }
+    }
     $conn->close();
 } else {
     $response = ['status' => 'error', 'message' => 'Barcode data not provided'];

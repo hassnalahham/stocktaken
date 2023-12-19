@@ -17,7 +17,7 @@ function Header() {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch('http://localhost/scannerapp/src/Components/Connection/Logout.php', {
+      const response = await fetch('http://192.168.1.134/scannerapp/src/Components/Connection/Logout.php', {
         method: 'POST',
         credentials: 'include',
       });
