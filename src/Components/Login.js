@@ -9,7 +9,7 @@ function Login() {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch('http://192.168.1.134/scannerapp/src/Components/Connection/Login.php', {
+      const response = await fetch('http://localhost/scannerapp/src/Components/Connection/Login.php', {
         method: 'POST',
         credentials: 'include',
         headers: {

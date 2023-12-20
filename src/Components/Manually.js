@@ -27,7 +27,7 @@ function AddManualy() {
   
   const sendBarcodeToServer = () => {
     // Send barcode data to the server using fetch or any other method
-    fetch('http://192.168.1.134/scannerapp/src/Components/Connection/InsertBarcodeManually.php', {
+    fetch('http://localhost/scannerapp/src/Components/Connection/InsertBarcodeManually.php', {
       method: 'POST',
       credentials: 'include', // Include credentials
       headers: {

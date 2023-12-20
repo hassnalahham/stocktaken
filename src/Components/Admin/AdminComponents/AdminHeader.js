@@ -1,4 +1,4 @@
-import './Style/Header2.css';
+import '../../Style/Header2.css';
 import { Link , useLocation  } from 'react-router-dom';
 import  {React, useState} from 'react';
 
@@ -37,10 +37,11 @@ function Header() {
   return (
     <>
       <header className="navbar">
-          <Link to="./Codes" className={location.pathname === "/Codes" ? "activeRoute" : "navlink"} >Codes</Link>
-          <Link to="./" className={location.pathname === "/" ? "activeRoute" : "navlink"} >Scan</Link>
-          <Link to="./Profile" className={location.pathname === "/Profile" ? "activeRoute" : "navlink"} >Profile</Link>
-      </header>
+            <Link to="./" onClick={CloseMenu} className={location.pathname === "/" ? "activeRoute" : "navlink"} >Scanned</Link>
+            <Link to="./Users" onClick={CloseMenu} className={location.pathname === "/Users" ? "activeRoute" : "navlink"} >Users</Link>
+            <Link to="./Reports" onClick={CloseMenu} className={location.pathname === "/Reports" ? "activeRoute" : "navlink"} >Reports</Link>
+            <Link to="./Logout"  onClick={() => { CloseMenu(); handleLogout(); }}  className={location.pathname === "/Logout" ? "activeRoute" : "navlink lastlink"} >Logout</Link>
+         </header>
       <header className='mobilenavbar'>
          <h1>Asia Mobile ST</h1>
          <button onClick={OpenMenu}>=</button>
@@ -50,9 +51,9 @@ function Header() {
          <div className='mobilenavminu'>
             <h1> Menu </h1>
             <button onClick={CloseMenu}>X</button>
-            <Link to="./" onClick={CloseMenu} className={location.pathname === "/" ? "activeRoute" : "navlink"} >Scan</Link>
-            <Link to="./Codes" onClick={CloseMenu} className={location.pathname === "/Codes" ? "activeRoute" : "navlink"} >Codes</Link>
-            <Link to="./Profile" onClick={CloseMenu} className={location.pathname === "/Profile" ? "activeRoute" : "navlink"} >Profile</Link>
+            <Link to="./" onClick={CloseMenu} className={location.pathname === "/" ? "activeRoute" : "navlink"} >Scanned</Link>
+            <Link to="./Users" onClick={CloseMenu} className={location.pathname === "/Users" ? "activeRoute" : "navlink"} >Users</Link>
+            <Link to="./Reports" onClick={CloseMenu} className={location.pathname === "/Reports" ? "activeRoute" : "navlink"} >Reports</Link>
             <Link to="./Logout"  onClick={() => { CloseMenu(); handleLogout(); }}  className={location.pathname === "/Logout" ? "activeRoute" : "navlink lastlink"} >Logout</Link>
          </div>
          </>

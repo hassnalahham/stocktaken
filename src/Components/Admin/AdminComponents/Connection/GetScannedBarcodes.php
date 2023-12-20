@@ -21,9 +21,9 @@ if ($conn->connect_error) {
 }
 
 // Check if the user is logged in
-if (isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn'] === true) {
+if (isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn'] === true && $_SESSION['roll'] === 'Admin') {
     // Run a query to get the latest barcodes using a prepared statement
-    $sql = "SELECT barcode, sum(qty) as qty FROM barcodes WHERE user_id = ? GROUP BY barcode DESC";
+    $sql = "SELECT barcode, sum(qty) as qty FROM barcodes GROUP BY barcode ORDER BY timestamp_column DESC";
 
     // Prepare the statement
     $stmt = $conn->prepare($sql);
@@ -31,9 +31,6 @@ if (isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn'] === true) {
     if (!$stmt) {
         echo json_encode(array('error' => 'Prepared statement error: ' . $conn->error));
     } else {
-        // Bind the parameter
-        $stmt->bind_param('i', $_SESSION['userId']); // 'i' represents an integer, adjust if needed
-
         // Execute the query
         $stmt->execute();
 

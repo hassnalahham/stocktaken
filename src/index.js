@@ -3,18 +3,20 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
+import Admin from './Components/Admin/Admin';
 import Login from './Components/Login'; // Import the Login component
 import reportWebVitals from './reportWebVitals';
 
 const Index = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Fetch user information from the server
     const fetchUserInfo = async () => {
       try {
-        const response = await fetch('http://192.168.1.134/scannerapp/src/Components/Connection/GetProfile.php', {
+        const response = await fetch('http://localhost/scannerapp/src/Components/Connection/GetProfile.php', {
           method: 'GET',
           credentials: 'include',
         });
@@ -22,7 +24,12 @@ const Index = () => {
         const data = await response.json();
 
         if (data.success) {
-          setIsLoggedIn(true);
+          if(data.user.roll == 'Admin'){
+            setIsAdmin(true);
+            setIsLoggedIn(true);
+          }else{
+            setIsLoggedIn(true);
+          }
         }
       } catch (error) {
         console.error('Error fetching user information:', error);
@@ -41,7 +48,7 @@ const Index = () => {
 
   return (
     <React.StrictMode>
-      {isLoggedIn ? <App /> : <Login />}
+      {isLoggedIn ? (isAdmin ? <Admin /> : <App />) : <Login />}
     </React.StrictMode>
   );
 };

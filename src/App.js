@@ -14,7 +14,6 @@ function App() {
     <div className="App">
       <body>
       <Router>
-
           <Header2/>
           <main className="main">
           <Routes>   

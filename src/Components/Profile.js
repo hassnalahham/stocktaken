@@ -11,7 +11,7 @@ function Profile() {
     // Fetch user information from the server
     const fetchUserInfo = async () => {
       try {
-        const response = await fetch('http://192.168.1.134/scannerapp/src/Components/Connection/GetProfile.php', {
+        const response = await fetch('http://localhost/scannerapp/src/Components/Connection/GetProfile.php', {
           method: 'GET',
           credentials: 'include',
         });
@@ -33,6 +33,19 @@ function Profile() {
 
   
 
+  const handleDownload = () => {
+    // Trigger the download by making a request to the PHP script
+    const downloadUrl = 'http://localhost/scannerapp/src/Components/Connection/DownloadCode.php'; // Replace with your actual backend URL
+
+    // Create a hidden link and click it to initiate the download
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.download = 'ST.xlsx';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className='Profile'>
       <div className='ImgDiv'>
@@ -44,7 +57,7 @@ function Profile() {
         ) : userInfo ? (
           <>
             <div className='InfoChild'>
-              <p>Full Name: {userInfo.firstName}</p>
+              <p>Full Name: {userInfo.firstName} {userInfo.lastName}</p>
             </div>
             <div className='InfoChild'>
               <p>Scanned: {userInfo.scanned}</p>
@@ -61,7 +74,7 @@ function Profile() {
         )}
       </div>
       <div>
-        <button className='downloadbtn'>Download Codes</button>
+        <button className='downloadbtn' onClick={handleDownload}>Download Codes</button>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './Style/Codes.css';
+import '../../Style/Codes.css';
 
 function Codes() {
   const [latestBarcodes, setLatestBarcodes] = useState([]);
@@ -54,7 +54,7 @@ function Codes() {
 
   const fetchLatestBarcodes = () => {
     // Fetch the latest barcodes from the server
-    fetch('http://localhost/scannerapp/src/Components/Connection/GetGroupedBarcode.php', {
+    fetch('http://localhost/scannerapp/src/Components/Admin/AdminComponents/Connection/GetScannedBarcodes.php', {
       method: 'GET',
       credentials: 'include',
     })
@@ -86,7 +86,7 @@ function Codes() {
 
   return (
     <div>
-      <h1>Your Barcodes</h1>
+      <h1>Scanned Barcodes</h1>
       <p>Press on the barcode to erase</p>
       {/* ... (other JSX code) */}
       <div className='CodesDiv'>

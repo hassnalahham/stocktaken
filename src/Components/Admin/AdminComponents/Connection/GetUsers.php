@@ -21,9 +21,9 @@ if ($conn->connect_error) {
 }
 
 // Check if the user is logged in
-if (isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn'] === true) {
+if (isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn'] === true && $_SESSION['roll'] === 'Admin') {
     // Run a query to get the latest barcodes using a prepared statement
-    $sql = "SELECT barcode, sum(qty) as qty FROM barcodes WHERE user_id = ? GROUP BY barcode DESC";
+    $sql = "SELECT * FROM users";
 
     // Prepare the statement
     $stmt = $conn->prepare($sql);
@@ -31,9 +31,6 @@ if (isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn'] === true) {
     if (!$stmt) {
         echo json_encode(array('error' => 'Prepared statement error: ' . $conn->error));
     } else {
-        // Bind the parameter
-        $stmt->bind_param('i', $_SESSION['userId']); // 'i' represents an integer, adjust if needed
-
         // Execute the query
         $stmt->execute();
 
@@ -45,15 +42,27 @@ if (isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn'] === true) {
             $result = $stmt->get_result();
 
             if ($result->num_rows > 0) {
-                $barcodes = array();
+                $users = array();
                 while ($row = $result->fetch_assoc()) {
-                    $barcodes[] = array(
-                        'barcode' => $row['barcode'],
-                        'qty' => $row['qty'],
-                    );
+
+                            $barcodessql = "SELECT count(barcode) as scanned FROM barcodes WHERE user_id = '". $row['user_id'] ."' ";
+                            $barcoderesult = $conn->query($barcodessql);
+                            // Check if a matching user was found
+                            if ($barcoderesult->num_rows > 0) {
+                                // Fetch user details
+                                $barcode = $barcoderesult->fetch_assoc();
+                          
+                                
+                    $users[] = array(
+                        'userId' => $row['user_id'],
+                        'userFullname' => $row['first_name'] . ' ' . $row['last_name'],
+                        'userStatus' => $row['status'],
+                        'userQty' => $barcode['scanned'],      
+                  );
+                 }
                 }
             
-                echo json_encode($barcodes);
+                echo json_encode($users);
             } else {
                 echo json_encode(array()); // Return an empty array if no barcodes are found
             }
