@@ -1,66 +1,78 @@
 import React, { useState, useEffect } from 'react';
 import './Style/Users.css';
+import AddUser from './CreateUser';
 
 function Users() {
   const [users, setUsers] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [selectedUser, setSelectedUser] = useState(null);
+  const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
 
   const openManuallyWindow = (user) => {
     setSelectedUser(user);
     setIsOpen(true);
   };
+
   const closeManuallyWindow = () => {
     setSelectedUser(null);
     setIsOpen(false);
+    setIsSaveButtonDisabled(true); // Enable the "Save" button on any input change
+
   };
 
+  const togglePassword = () =>{
+    setShowPassword(!showPassword);
+  }
 
-  const handleEdit = (option) => {
-      fetch('http://localhost/scannerapp/src/Components/Admin/AdminComponents/Connection/EditUser.php', {
+  const handleEdit = () => {
+    fetch('http://localhost/scannerapp/src/Components/Admin/AdminComponents/Connection/EditUser.php', {
       method: 'POST',
-      credentials: 'include', // Include credentials
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ selectedUser, action: option }),
+      body: JSON.stringify({ selectedUser }),
     })
       .then(response => response.json())
       .then(data => {
         console.log('Server response:', data);
 
-        // Check if there is an error in the server response
         if (data.status === 'error') {
-          // Set the error message with the user's first name
           setErrorMessage(data.message);
         } else {
-          // Clear any previous error messages
           setErrorMessage('');
         }
       })
       .catch(error => {
         console.error('Error sending barcode to server:', error);
-        // Set an error message for network or server errors
         setErrorMessage('An error occurred while communicating with the server.');
       });
-    // After deletion, close the window
+
     closeManuallyWindow();
   };
 
-
+  const handleInputChange = (fieldName, value) => {
+    setSelectedUser({ ...selectedUser, [fieldName]: value });
+    setIsSaveButtonDisabled(false); // Enable the "Save" button on any input change
+  };
 
   const fetchLatestBarcodes = async () => {
     try {
       const response = await fetch('http://localhost/scannerapp/src/Components/Admin/AdminComponents/Connection/GetUsers.php', {
-        credentials: 'include', // Include credentials
+        credentials: 'include',
       });
       const data = await response.json();
-  
+
+      if (data.status === 'error') {
+        // Set the error message with the user's first name
+        setErrorMessage(data.message);
+      }
+
       if (response.ok) {
-        // Check if the data is an array
         if (Array.isArray(data)) {
-            setUsers(data);
+          setUsers(data);
         } else {
           console.error('Invalid data format:', data);
         }
@@ -71,34 +83,35 @@ function Users() {
       console.error('Error fetching latest barcodes:', error);
     }
   };
-  
 
   useEffect(() => {
     const fetchData = async () => {
       await fetchLatestBarcodes();
     };
 
-    fetchData(); // Fetch initially
+    fetchData();
 
-    // Set up polling with a specified interval (e.g., every 5 seconds)
-    const intervalId = setInterval(fetchData, 500); // Adjust the interval as needed (in milliseconds)
+    const intervalId = setInterval(fetchData, 500);
 
-    // Clean up the interval when the component is unmounted
     return () => clearInterval(intervalId);
-  }, []); // The empty dependency array ensures the effect runs only once on mount
+  }, []);
 
-  // Handle loading state
   if (users.length === 0) {
     return <p>Loading...</p>;
   }
 
-  // Limit the displayed rows to the latest 5 barcodes
-  const limitedBarcodes = users.slice(0, 5);
+
 
   return (
     <div className='UsersDiv'>
-        <h1>Users</h1>
-      {limitedBarcodes.map((user, index) => (
+        {errorMessage && (
+        <div className="error-popup">
+          <p>{errorMessage}</p>
+          <button onClick={() => setErrorMessage('')}>Close</button>
+        </div>
+      )}
+      <h1>Users</h1>
+      {users.map((user, index) => (
         <div key={index} className='UsersChild' onClick={() => openManuallyWindow(user)}>
           <p>{user.userFullname}</p>
           <p>{user.userQty}</p>
@@ -106,44 +119,104 @@ function Users() {
         </div>
       ))}
 
+      {isOpen ? (
+        <>
+        
+          <div className='overlay' onClick={closeManuallyWindow}></div>
+          <div className='edit-user'>
+            <h1>Edit User</h1>
+            <button className='CloseWindow' onClick={closeManuallyWindow}>
+              X
+            </button>
+            <p>
+              <b>{selectedUser.userFullname}</b>{' '}
+            </p>
+            {selectedUser.userId && (
+              <>
+                <div>
+                  <div className='coolinput'>
+                    <label htmlFor='input' className='text'>
+                      First Name:
+                    </label>
+                    <input
+                      type='text'
+                      placeholder='Write here...'
+                      name='input'
+                      className='input'
+                      value={selectedUser.userFirstname}
+                      onChange={(e) => handleInputChange('userFirstname', e.target.value)}
+                    />
+                  </div>
+                  <div className='coolinput'>
+                    <label htmlFor='input' className='text'>
+                      Last Name:
+                    </label>
+                    <input
+                      type='text'
+                      placeholder='Write here...'
+                      name='input'
+                      className='input'
+                      value={selectedUser.userLastname}
+                      onChange={(e) => handleInputChange('userLastname', e.target.value)}
+                    />
+                  </div>
 
-<>
-        {isOpen ? (
-          <>
-            <div className='overlay' onClick={closeManuallyWindow}></div>
-            <div className='Add-Manually-Window'>
-              <h1>Delete</h1>
-              <button className='CloseWindow' onClick={closeManuallyWindow}>
-                X
-              </button>
-              <p>Are you sure you want to delete <br /> <b>{selectedUser.userId}</b>  ?</p>
-              {selectedUser.userId && (
-                <>
-                    <div>
-                    <input type='text' value={selectedUser.userId}></input>
-                    <input type='text' value={selectedUser.userFullname}></input>
-                    <select>
-                        {selectedUser.userStatus == 'Active' ? 
-                        <>
-                         <option value={selectedUser.userStatus} selected>Active</option>
-                         <option value='Deactivate'>Deactivate</option>
-                        </>:
-                        <>
-                        <option value='Active'>Active</option>
-                        <option  value={selectedUser.userStatus} selected >Deactivate</option>
-                        </>
-                        }
+                  <div className='coolinput'>
+                    <label htmlFor='input' className='text'>
+                      Status:
+                    </label>
+                    <select
+                      name='input'
+                      className='input'
+                      value={selectedUser.userStatus}
+                      onChange={(e) => handleInputChange('userStatus', e.target.value)}
+                    >
+                      <option value='Active'>Active</option>
+                      <option value='Deactivate'>Deactivate</option>
                     </select>
-                    <button className='bluebtn' onClick={() => handleEdit('DeleteOnce')}>
-                      Save
-                    </button>
-                    </div>
-                </>
-              )}
-            </div>
-          </>
-        ) : null}
-      </>
+                  </div>
+
+                  <div className='coolinput'>
+                    <label htmlFor='input' className='text'>
+                      Roll:
+                    </label>
+                    <select
+                      name='input'
+                      className='input'
+                      value={selectedUser.userRoll}
+                      onChange={(e) => handleInputChange('userRoll', e.target.value)}
+                    >
+                      <option value='Scanner'>Scanner</option>
+                      <option value='Admin'>Admin</option>
+                    </select>
+                  </div>
+
+                  <div className='coolinput'>
+                    <label htmlFor='input' className='text'>
+                      Password:
+                    </label>
+                    <input
+                       type={showPassword ? 'text' : 'password'}
+                      placeholder='Write here...'
+                      name='input'
+                      className='input'
+                      value={selectedUser.userPassword}
+                      onChange={(e) => handleInputChange('userPassword', e.target.value)}
+                    >
+                    </input>
+                    <button className='showpassword' onClick={togglePassword}>🔑</button>
+                  </div>
+
+                  <button className='bluebtn' onClick={handleEdit} disabled={isSaveButtonDisabled}>
+                    Save
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        </>
+      ) : null}
+      <AddUser/>
     </div>
   );
 }

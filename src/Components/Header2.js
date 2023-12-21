@@ -37,10 +37,14 @@ function Header() {
   return (
     <>
       <header className="navbar">
+          <h2>Asia Mobile ST</h2>
+          <div>
           <Link to="./Codes" className={location.pathname === "/Codes" ? "activeRoute" : "navlink"} >Codes</Link>
           <Link to="./" className={location.pathname === "/" ? "activeRoute" : "navlink"} >Scan</Link>
           <Link to="./Profile" className={location.pathname === "/Profile" ? "activeRoute" : "navlink"} >Profile</Link>
-      </header>
+          <Link to="./Logout"  onClick={() => { CloseMenu(); handleLogout(); }}  className={location.pathname === "/Logout" ? "activeRoute" : "navlink lastlink"} >Logout</Link>
+          </div>
+          </header>
       <header className='mobilenavbar'>
          <h1>Asia Mobile ST</h1>
          <button onClick={OpenMenu}>=</button>

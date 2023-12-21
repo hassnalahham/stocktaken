@@ -37,13 +37,19 @@ function Header() {
   return (
     <>
       <header className="navbar">
+            <h2>Asia Mobile ST</h2>
+            <div>
             <Link to="./" onClick={CloseMenu} className={location.pathname === "/" ? "activeRoute" : "navlink"} >Scanned</Link>
+            <Link to="./Search" onClick={CloseMenu} className={location.pathname === "/Search" ? "activeRoute" : "navlink"} >Search</Link>
             <Link to="./Users" onClick={CloseMenu} className={location.pathname === "/Users" ? "activeRoute" : "navlink"} >Users</Link>
             <Link to="./Reports" onClick={CloseMenu} className={location.pathname === "/Reports" ? "activeRoute" : "navlink"} >Reports</Link>
             <Link to="./Logout"  onClick={() => { CloseMenu(); handleLogout(); }}  className={location.pathname === "/Logout" ? "activeRoute" : "navlink lastlink"} >Logout</Link>
-         </header>
+        
+            </div>
+      </header>
       <header className='mobilenavbar'>
-         <h1>Asia Mobile ST</h1>
+      <h1>Asia Mobile ST</h1>
+        
          <button onClick={OpenMenu}>=</button>
          {isOpen ? ( 
          <>
@@ -52,6 +58,7 @@ function Header() {
             <h1> Menu </h1>
             <button onClick={CloseMenu}>X</button>
             <Link to="./" onClick={CloseMenu} className={location.pathname === "/" ? "activeRoute" : "navlink"} >Scanned</Link>
+            <Link to="./Search" onClick={CloseMenu} className={location.pathname === "/Search" ? "activeRoute" : "navlink"} >Search</Link>
             <Link to="./Users" onClick={CloseMenu} className={location.pathname === "/Users" ? "activeRoute" : "navlink"} >Users</Link>
             <Link to="./Reports" onClick={CloseMenu} className={location.pathname === "/Reports" ? "activeRoute" : "navlink"} >Reports</Link>
             <Link to="./Logout"  onClick={() => { CloseMenu(); handleLogout(); }}  className={location.pathname === "/Logout" ? "activeRoute" : "navlink lastlink"} >Logout</Link>

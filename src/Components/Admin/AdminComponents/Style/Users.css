@@ -13,3 +13,123 @@
     border-radius: 12px;
     color: white;
 }
+
+
+
+
+.edit-user{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 20px;
+    box-shadow: 0 0 10px  rgba(0, 0, 0, 0.2);
+    z-index: 800;
+    width: 300px;
+    height: auto;
+    border-radius: 10px;
+}
+.edit-user div{
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-user select{
+    margin-bottom: 10px;
+    padding: 15px;
+    border: 2px #3333333e solid;
+    -webkit-appearance: none; /* Removes default styles in some browsers */
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.edit-user .bluebtn{
+    width: 100%;
+}
+
+.edit-user .bluebtn:disabled{
+    background-color: rgba(147, 193, 249, 0.632);
+}
+
+.edit-user .CloseWindow{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    background-color: transparent;
+    border:none;
+    padding: 5px;
+    font-size: x-large;
+  }
+
+
+
+  .coolinput {
+    display: flex;
+    flex-direction: column;
+    position: static;
+    width: 100%;
+  }
+  
+  .coolinput label.text {
+    font-size: 0.9rem;
+    color: #81b1f8;
+    font-weight: 700;
+    position: relative;
+    top: 0.5rem;
+    margin: 0 0 0 7px;
+    padding: 0 3px;
+    background: white;
+    width: fit-content;
+  }
+  
+  .coolinput input[type=text].input {
+    padding: 11px 10px;
+    font-size: 1.2rem;
+    border: 2px #3333333e solid;
+    border-radius: 5px;
+    background: white;
+  }
+
+  .coolinput input[type=password].input {
+    padding: 11px 10px;
+    font-size: 1.2rem;
+    border: 2px #3333333e solid;
+    border-radius: 5px;
+    background: white;
+  }
+  
+  /* Style for focused input */
+.coolinput input[type=text].input:focus{
+    outline: none;
+    border: 2px #81b1f8 solid;
+}
+
+  /* Style for focused input */
+  .coolinput input[type=password].input:focus{
+    outline: none;
+    border: 2px #81b1f8 solid;
+}
+
+.coolinput select:focus{
+    outline: none;
+    border: 2px #81b1f8 solid;
+}
+
+.showpassword {
+    position: relative;
+    margin-left: 80%; /* Adjust the margin to your preference */
+    margin-top: -55px;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    color: #333; /* Choose your desired color */
+    font-size: 24px;
+    outline: none;
+  }
+  
+  .showpassword:hover {
+    color: #007bff; /* Change color on hover if desired */
+  }
+  

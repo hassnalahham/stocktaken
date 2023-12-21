@@ -23,7 +23,7 @@ if ($conn->connect_error) {
 // Check if the user is logged in
 if (isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn'] === true && $_SESSION['roll'] === 'Admin') {
     // Run a query to get the latest barcodes using a prepared statement
-    $sql = "SELECT * FROM users";
+    $sql = "SELECT * FROM users where user_id >= '". $_SESSION['userId'] ."'";
 
     // Prepare the statement
     $stmt = $conn->prepare($sql);
@@ -56,7 +56,11 @@ if (isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn'] === true && $_SESS
                     $users[] = array(
                         'userId' => $row['user_id'],
                         'userFullname' => $row['first_name'] . ' ' . $row['last_name'],
+                        'userFirstname' => $row['first_name'],
+                        'userLastname' => $row['last_name'],
+                        'userRoll' => $row['roll'],
                         'userStatus' => $row['status'],
+                        'userPassword' => $row['password'],
                         'userQty' => $barcode['scanned'],      
                   );
                  }

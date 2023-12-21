@@ -1,0 +1,46 @@
+<?php
+session_start();
+header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Credentials: true");
+header('Content-Type: application/json');
+
+// Replace these with your actual database credentials
+$servername = 'localhost';
+$username = 'root';
+$password = '';
+$dbname = 'stocktaken';
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Fetch data from PHPMyAdmin table
+$sql = "SELECT barcode , qty FROM barcodes where qty != 0";
+$result = mysqli_query($conn, $sql);
+
+// Set headers to force download
+header('Content-Type: text/csv');
+header('Content-Disposition: attachment;filename= FullST.csv');
+header('Cache-Control: max-age=0');
+
+// Open output stream
+$output = fopen('php://output', 'w');
+
+// Output column headers
+$columnHeaders = array("Barcode", "Quantity"); // Replace with your actual column names
+fputcsv($output, $columnHeaders);
+
+// Output data
+while ($row = mysqli_fetch_assoc($result)) {
+    fputcsv($output, $row);
+}
+
+// Close output stream
+fclose($output);
+
+// Close database connection
+mysqli_close($conn);
+
+exit;
+?>

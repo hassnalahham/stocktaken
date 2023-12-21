@@ -20,6 +20,20 @@ function Codes() {
     setIsOpen(false);
   };
 
+  const handleDownload = () => {
+    // Trigger the download by making a request to the PHP script
+    const downloadUrl = 'http://localhost/scannerapp/src/Components/Admin/AdminComponents/Connection//DownloadCode.php'; // Replace with your actual backend URL
+
+    // Create a hidden link and click it to initiate the download
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.download = 'ST.xlsx';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+
   const handleDelete = (option) => {
     console.log(`Deleting ${option} for barcode ${selectedBarcode}`);
       fetch('http://localhost/scannerapp/src/Components/Connection/DeleteBarcode.php', {
@@ -139,6 +153,9 @@ function Codes() {
           </>
         ) : null}
       </>
+      <div>
+        <button className='downloadbtn' onClick={handleDownload}>Download Codes</button>
+      </div>
     </div>
   );
 }

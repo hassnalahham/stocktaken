@@ -29,7 +29,7 @@ function Login() {
         }
       if (data.success) {
         // Redirect or perform any additional actions after successful login
-        window.location.href = '/profile'; // Change '/profile' to your actual profile page
+        window.location.href = '/'; // Change '/profile' to your actual profile page
       } 
       if(data.success == false) {
         setError('Invalid username or password');
