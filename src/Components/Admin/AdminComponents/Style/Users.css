@@ -99,6 +99,15 @@
     border-radius: 5px;
     background: white;
   }
+
+  .coolinput input[type=file].input {
+    padding: 11px 10px;
+    font-size: 1.2rem;
+    border: 2px #3333333e solid;
+    border-radius: 5px;
+    background: white;
+  }
+
   
   /* Style for focused input */
 .coolinput input[type=text].input:focus{

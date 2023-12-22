@@ -118,6 +118,25 @@ body {
   width: 200px;
 }
 
+.redbtn{
+  background-color: rgb(249, 147, 147);
+  color: rgb(0, 0, 0);
+  border: hidden;
+  border-radius: 15px;
+  padding: 15px;
+  margin-top: 50px;
+  font-size: larger;
+  width: 80%;
+}
+
+.doublebtnDiv{
+  margin-top: -20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
 
 .hidden{
   display: none;

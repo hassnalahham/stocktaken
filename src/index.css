@@ -11,6 +11,21 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.success-popup{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background-color: #9eff80;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  font-size: 24px;
+  width: 80%;
+  text-align: center;
+}
 
 .error-popup {
   position: fixed;
@@ -28,7 +43,7 @@ code {
   text-align: center;
 }
 
-.error-popup button{
+.error-popup button, .success-popup button{
   width: 40%;
   padding: 15px;
 }

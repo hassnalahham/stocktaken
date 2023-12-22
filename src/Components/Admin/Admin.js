@@ -7,7 +7,7 @@ import Reports from './AdminComponents/Reports';
 import AdminHeader from './AdminComponents/AdminHeader';
 import AdminSearch from './AdminComponents/AdminSearch';
 
-import AddUser from './AdminComponents/CreateUser';
+import Session from './AdminComponents/Session';
 
 import Footer from '../Footer';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -25,7 +25,7 @@ function Admin() {
             <Route path="/Search" element={<AdminSearch/>} />
             <Route path="/Users" element={<Users/>} />
             <Route path="/Reports" element={<Reports/>} />
-            <Route path="/Add" element={<AddUser/>} />
+            <Route path="/Session" element={<Session/>} />
           </Routes>
           </main>
         </Router>

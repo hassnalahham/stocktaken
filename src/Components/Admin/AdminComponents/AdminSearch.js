@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../../Style/Barcode.css';
-
+import './Style/Card.css';
 
 const AdminSearch = ({ onInsertionComplete }) => {
   const [barcode, setBarcode] = useState('');
@@ -95,10 +95,26 @@ const AdminSearch = ({ onInsertionComplete }) => {
       <>
        {isSearched ? 
        <div className='searchedDiv'>
-        <p>{searched.barcode}</p>
-        <p>{searched.qty}</p>
-        <p>{searched.UserFullname}</p>
-        <p>Status</p>
+        <table>
+          <tbody>
+            <tr>
+              <td>Barcode  </td>
+              <td>{searched.barcode}</td>
+            </tr>
+            <tr>
+              <td>Quantity  </td>
+              <td>{searched.qty}</td>
+            </tr>
+            <tr>
+              <td>User  </td>
+              <td>{searched.UserFullname}</td>
+            </tr>
+            <tr>
+              <td>Status  </td>
+              <td>Reached</td>
+            </tr>
+          </tbody>
+        </table>
        </div> 
       : <p>Search to fetch result ...</p>}
       </>

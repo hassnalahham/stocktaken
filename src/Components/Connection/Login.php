@@ -42,7 +42,7 @@ if ($result->num_rows > 0) {
         $_SESSION['lastName'] = $user['last_name'];
         $_SESSION['roll'] = $user['roll'];
         $_SESSION['status'] = $user['status'];
-
+        $_SESSION['accountId'] = $user['account_id'];
 
         echo json_encode(['success' => true]);
     } else {

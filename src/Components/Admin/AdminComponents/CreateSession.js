@@ -1,38 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import './Style/Users.css';
 
-function CreateUser() {
+function CreateSession() {
   const [isOpen, setIsOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [success, setSuccess] = useState(false);
-  const [CreateUser, setCreateUser] = useState(null);
+  const [CreateSession, setCreateSession] = useState(null);
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
-  const [showPassword, setShowPassword] = useState(false);
+
 
   const openManuallyWindow = () => {
-    setCreateUser();
+    setCreateSession();
     setIsOpen(true);
   };
 
   const closeManuallyWindow = () => {
-    setCreateUser(null);
+    setCreateSession(null);
     setIsOpen(false);
     setIsSaveButtonDisabled(true); // Enable the "Save" button on any input change
 
   };
 
-  const togglePassword = () =>{
-    setShowPassword(!showPassword);
-  }
 
   const handleCreate = () => {
-    fetch('http://localhost/scannerapp/src/Components/Admin/AdminComponents/Connection/AddUser.php', {
+    fetch('http://localhost/scannerapp/src/Components/Admin/AdminComponents/Connection/CreateSession.php', {
         method: 'POST',
         credentials: 'include',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ CreateUser }),
+        body: JSON.stringify({ CreateSession }),
         })
         .then(response => response.json())
         .then(data => {
@@ -49,13 +46,11 @@ function CreateUser() {
             console.error('Error:', error);
             setErrorMessage('An unexpected error occurred.');
         });
-      
-
-   
   };
 
+
   const handleInputChange = (fieldName, value) => {
-    setCreateUser({ ...CreateUser, [fieldName]: value });
+    setCreateSession({ ...CreateSession, [fieldName]: value });
     setIsSaveButtonDisabled(false); // Enable the "Save" button on any input change
   };
 
@@ -65,19 +60,19 @@ function CreateUser() {
         {errorMessage && (
         <div className={success ? "success-popup" : "error-popup"}>
           <p>{errorMessage}</p>
-          <button onClick={() => setErrorMessage('')}>Close</button>
+          <button onClick={() => setErrorMessage('') && setSuccess(false)}>Close</button>
         </div>
       )}
       <div>
-        <button onClick={() => openManuallyWindow()} className='bluebtn'>Add User</button>
+        <button onClick={() => openManuallyWindow()} className='bluebtn'>Create Session</button>
       </div>
-
+      
       {isOpen ? (
         <>
         
           <div className='overlay' onClick={closeManuallyWindow}></div>
           <div className='edit-user'>
-            <h1>Create User</h1>
+            <h1>Create Session</h1>
             <button className='CloseWindow' onClick={closeManuallyWindow}>
               X
             </button>
@@ -85,77 +80,30 @@ function CreateUser() {
                 <div>
                   <div className='coolinput'>
                     <label htmlFor='input' className='text'>
-                      First Name:
+                    Session Name:
                     </label>
                     <input
                       type='text'
                       placeholder='Write here...'
                       name='input'
                       className='input'
-                      onChange={(e) => handleInputChange('userFirstname', e.target.value)}
+                      onChange={(e) => handleInputChange('SessionName', e.target.value)}
                     />
                   </div>
                   <div className='coolinput'>
                     <label htmlFor='input' className='text'>
-                      Last Name:
+                    Session File:
                     </label>
                     <input
-                      type='text'
+                      type='file'
                       placeholder='Write here...'
                       name='input'
                       className='input'
-                      onChange={(e) => handleInputChange('userLastname', e.target.value)}
+                      onChange={(e) => handleInputChange('SessionName', e.target.value)}
                     />
                   </div>
-
-
-                  <div className='coolinput'>
-                    <label htmlFor='input' className='text'>
-                      Roll:
-                    </label>
-                    <select
-                      name='input'
-                      className='input'
-                      onChange={(e) => handleInputChange('userRoll', e.target.value)}
-                    >
-                      <option value='None' hidden>None</option>
-                      <option value='Scanner'>Scanner</option>
-                      <option value='Admin'>Admin</option>
-                    </select>
-                  </div>
-
-                  <div className='coolinput'>
-                    <label htmlFor='input' className='text'>
-                      UserName:
-                    </label>
-                    <input
-                      type='text'
-                      placeholder='Write here...'
-                      name='input'
-                      className='input'
-                      onChange={(e) => handleInputChange('userUsername', e.target.value)}
-                      autoComplete="new-password"
-                    />
-                  </div>
-
-                  <div className='coolinput'>
-                    <label htmlFor='input' className='text'>
-                      Password:
-                    </label>
-                    <input
-                      type={showPassword ? 'text' : 'password'}
-                      placeholder='Write here...'
-                      name='input'
-                      className='input'
-                      onChange={(e) => handleInputChange('userPassword', e.target.value)}
-                      autoComplete="new-password"
-                    >
-                    </input>
-                    <button className='showpassword' onClick={togglePassword}>🔑</button>
-                  </div>
-
                   <button className='bluebtn' onClick={handleCreate} disabled={isSaveButtonDisabled}>
-                    Create
+                     Create
                   </button>
                 </div>
               </>
@@ -167,4 +115,4 @@ function CreateUser() {
   );
 }
 
-export default CreateUser;
+export default CreateSession;

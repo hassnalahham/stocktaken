@@ -43,6 +43,9 @@ function Header() {
             <Link to="./Search" onClick={CloseMenu} className={location.pathname === "/Search" ? "activeRoute" : "navlink"} >Search</Link>
             <Link to="./Users" onClick={CloseMenu} className={location.pathname === "/Users" ? "activeRoute" : "navlink"} >Users</Link>
             <Link to="./Reports" onClick={CloseMenu} className={location.pathname === "/Reports" ? "activeRoute" : "navlink"} >Reports</Link>
+            
+            <Link to="./Session" onClick={CloseMenu} className={location.pathname === "/Session" ? "activeRoute" : "navlink"} >Session</Link>
+            
             <Link to="./Logout"  onClick={() => { CloseMenu(); handleLogout(); }}  className={location.pathname === "/Logout" ? "activeRoute" : "navlink lastlink"} >Logout</Link>
         
             </div>
@@ -61,6 +64,9 @@ function Header() {
             <Link to="./Search" onClick={CloseMenu} className={location.pathname === "/Search" ? "activeRoute" : "navlink"} >Search</Link>
             <Link to="./Users" onClick={CloseMenu} className={location.pathname === "/Users" ? "activeRoute" : "navlink"} >Users</Link>
             <Link to="./Reports" onClick={CloseMenu} className={location.pathname === "/Reports" ? "activeRoute" : "navlink"} >Reports</Link>
+            
+            <Link to="./Session" onClick={CloseMenu} className={location.pathname === "/Session" ? "activeRoute" : "navlink"} >Session</Link>
+
             <Link to="./Logout"  onClick={() => { CloseMenu(); handleLogout(); }}  className={location.pathname === "/Logout" ? "activeRoute" : "navlink lastlink"} >Logout</Link>
          </div>
          </>
