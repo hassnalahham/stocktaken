@@ -44,7 +44,10 @@ if ($result->num_rows > 0) {
         $_SESSION['status'] = $user['status'];
         $_SESSION['accountId'] = $user['account_id'];
 
-        echo json_encode(['success' => true]);
+        $userroll = [
+            'userRoll' => $_SESSION['roll'],
+        ];
+        echo json_encode(['success' => true, 'roll' => $userroll]);
     } else {
         echo json_encode(['status' => 'error', 'message' => 'Your account is disabled please try again later']);
     }

@@ -3,26 +3,23 @@ import '../../Style/Codes.css';
 
 function Reports() {
   const [latestBarcodes, setLatestBarcodes] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
   const [selectedBarcode, setSelectedBarcode] = useState(null);
-  const [selectedQty, setSelectedQty] = useState(null);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
+
 
   const openManuallyWindow = (barcode) => {
-    setSelectedBarcode(barcode.barcode);
-    setSelectedQty(barcode.qty);
+    setSelectedBarcode(barcode);
     setIsOpen(true);
   };
 
   const closeManuallyWindow = () => {
     setSelectedBarcode(null);
-    setSelectedQty(null);
     setIsOpen(false);
   };
 
   const handleDownload = () => {
     // Trigger the download by making a request to the PHP script
-    const downloadUrl = 'http://localhost/scannerapp/src/Components/Admin/AdminComponents/Connection//DownloadCode.php'; // Replace with your actual backend URL
+    const downloadUrl = 'http://localhost/scannerapp/src/Components/Admin/AdminComponents/Connection//DownloadReports.php'; // Replace with your actual backend URL
 
     // Create a hidden link and click it to initiate the download
     const link = document.createElement('a');
@@ -34,41 +31,9 @@ function Reports() {
   };
 
 
-  const handleDelete = (option) => {
-    console.log(`Deleting ${option} for barcode ${selectedBarcode}`);
-      fetch('http://localhost/scannerapp/src/Components/Connection/DeleteBarcode.php', {
-      method: 'POST',
-      credentials: 'include', // Include credentials
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ selectedBarcode, action: option }),
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Server response:', data);
-
-        // Check if there is an error in the server response
-        if (data.status === 'error') {
-          // Set the error message with the user's first name
-          setErrorMessage(data.message);
-        } else {
-          // Clear any previous error messages
-          setErrorMessage('');
-        }
-      })
-      .catch(error => {
-        console.error('Error sending barcode to server:', error);
-        // Set an error message for network or server errors
-        setErrorMessage('An error occurred while communicating with the server.');
-      });
-    // After deletion, close the window
-    closeManuallyWindow();
-  };
-
   const fetchLatestBarcodes = () => {
     // Fetch the latest barcodes from the server
-    fetch('http://localhost/scannerapp/src/Components/Admin/AdminComponents/Connection/GetScannedBarcodes.php', {
+    fetch('http://localhost/scannerapp/src/Components/Admin/AdminComponents/Connection/GetReports.php', {
       method: 'GET',
       credentials: 'include',
     })
@@ -100,6 +65,19 @@ function Reports() {
 
   return (
     <div>
+      <>
+        {isOpen ? (
+          <>
+            <div className='overlay' onClick={closeManuallyWindow}></div>
+            <div className='Add-Manually-Window'>
+              <h1>Barcode</h1>
+              <button className='CloseWindow' onClick={closeManuallyWindow}>X</button>
+                <p>This Barcode <b>{selectedBarcode.barcode}</b> Associated with <b>{selectedBarcode.userId}</b></p>
+                <button className='bluebtn' onClick={closeManuallyWindow}>Ok</button>
+            </div>
+          </>
+        ) : null }
+      </>
       <h1>Reports</h1>
       {/* ... (other JSX code) */}
       <div className='CodesDiv'>
@@ -109,9 +87,9 @@ function Reports() {
             <tbody>
               {Array.isArray(latestBarcodes) &&
                 latestBarcodes.map((barcode, index) => (
-                  <tr key={index} onClick={() => openManuallyWindow(barcode)}>
+                  <tr key={index} onClick={() => openManuallyWindow(barcode)} className={barcode.qty == barcode.oqty ? 'greendiv' : barcode.qty > barcode.oqty ? 'reddiv' : ''}>
                     <td>{barcode.barcode}</td>
-                    <td style={{ textAlign: 'right' }}>Reached</td>
+                    <td style={{ textAlign: 'right' }}>{barcode.dqty === 0 ? <p>Reached</p>: <p>{barcode.qty} / {barcode.oqty}</p>}</td>
                   </tr>
                 ))}
             </tbody>
@@ -119,7 +97,7 @@ function Reports() {
         </div>
       </div>
       <div>
-        <button className='downloadbtn' onClick={handleDownload}>Download Codes</button>
+        <button className='bluebtn' onClick={handleDownload}>Download Report</button>
       </div>
     </div>
   );

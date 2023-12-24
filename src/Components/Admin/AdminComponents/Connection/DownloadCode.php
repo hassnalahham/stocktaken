@@ -16,7 +16,7 @@ $dbname = 'stocktaken';
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Fetch data from PHPMyAdmin table
-$sql = "SELECT barcode , qty FROM barcodes where qty != 0";
+$sql = "SELECT barcode , sum(qty) as qty FROM barcodes where qty != 0 GROUP BY barcode";
 $result = mysqli_query($conn, $sql);
 
 // Set headers to force download

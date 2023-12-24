@@ -47,3 +47,29 @@ code {
   width: 40%;
   padding: 15px;
 }
+
+.greendiv{
+  background-color: #9eff8094;
+}
+.reddiv{
+  background-color: #ff808094;
+}
+
+.bluediv{
+  background-color: #80d0ff94;
+}
+
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 4px solid #3498db;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

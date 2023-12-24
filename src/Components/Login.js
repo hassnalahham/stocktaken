@@ -6,6 +6,7 @@ function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [roll, setRoll] = useState(null);
 
   const handleLogin = async () => {
     try {
@@ -28,8 +29,14 @@ function Login() {
           setErrorMessage('');
         }
       if (data.success) {
-        // Redirect or perform any additional actions after successful login
-        window.location.href = '/'; // Change '/profile' to your actual profile page
+        setRoll(data.roll);
+
+        if(roll.userRoll === 'Admin'){
+          window.location.href = '/Session'; // Change '/profile' to your actual profile page
+        }else{
+          window.location.href = '/'; // Change '/profile' to your actual profile page
+        }
+
       } 
       if(data.success == false) {
         setError('Invalid username or password');

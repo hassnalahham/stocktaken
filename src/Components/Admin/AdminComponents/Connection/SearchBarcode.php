@@ -14,6 +14,7 @@ $data = json_decode(file_get_contents('php://input'), true);
 if (isset($data['barcode'])) {
     $barcode = $data['barcode'];
     $userId = $_SESSION['userId'];
+    $sessionData = $_SESSION['SessionName'];
     
     // Connect to the database (replace with your database credentials)
     $servername = 'localhost';
@@ -29,12 +30,30 @@ if (isset($data['barcode'])) {
     }
 
     // Check if the barcode is already associated with any user
-    $checkSql = "SELECT * , sum(qty) as sqty FROM barcodes WHERE barcode = '$barcode' GROUP BY barcode";
-    $checkResult = $conn->query($checkSql);
+    $checkSql = "
+        SELECT
+            b.barcode,
+            SUM(b.qty) AS current_qty,
+            MAX(ob.qty) AS origin_qty,
+            SUM(b.qty) - MAX(ob.qty) AS qty_difference,
+            b.user_id AS userid
+        FROM
+            barcodes b
+        JOIN
+            $sessionData ob ON b.barcode = ob.barcode
+        WHERE
+            b.barcode = ?
+        GROUP BY
+            b.barcode
+        ";
+        $stmt = $conn->prepare($checkSql);
+        $stmt->bind_param("s", $barcode);
+        $stmt->execute();
+        $checkResult = $stmt->get_result();
 
     if ($checkResult->num_rows > 0) {
         $existingBarcode = $checkResult->fetch_assoc();
-        $existingUserId = $existingBarcode['user_id'];
+        $existingUserId = $existingBarcode['userid'];
             // Barcode already associated with a different user
             $getUserSql = "SELECT concat(first_name,' ',last_name)  as fullname FROM users WHERE user_id = '$existingUserId'";
             $getUserResult = $conn->query($getUserSql);
@@ -45,8 +64,11 @@ if (isset($data['barcode'])) {
 
                 $barcodes = [
                     'barcode' => $existingBarcode['barcode'],
-                    'qty' => $existingBarcode['sqty'],
+                    'qty' => $existingBarcode['current_qty'],
+                    'origin_qty' => $existingBarcode['origin_qty'],  // Fix the key here
+                    'qty_difference' => $existingBarcode['qty_difference'],  // Fix the key here
                     'UserFullname' => $existingUser['fullname'],
+                    'userId' => $existingBarcode['userid'],
                 ];
 
                 $response = ['success' => true, 'user' => $barcodes];

@@ -111,7 +111,7 @@ const AdminSearch = ({ onInsertionComplete }) => {
             </tr>
             <tr>
               <td>Status  </td>
-              <td>Reached</td>
+              <td>{searched.qty_difference === '0' ? 'Reached' : 'Not Reached'}</td>
             </tr>
           </tbody>
         </table>
