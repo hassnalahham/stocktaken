@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './Style/Users.css';
 
 function CreateUser() {
@@ -26,7 +26,7 @@ function CreateUser() {
   }
 
   const handleCreate = () => {
-    fetch('http://localhost/scannerapp/src/Components/Admin/AdminComponents/Connection/AddUser.php', {
+    fetch('https://scannerst.pro/Components/Admin/AdminComponents/Connection/AddUser.php', {
         method: 'POST',
         credentials: 'include',
         headers: {

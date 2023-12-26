@@ -6,11 +6,11 @@ function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [roll, setRoll] = useState(null);
+  const [rolls, setRoll] = useState(null);
 
   const handleLogin = async () => {
     try {
-      const response = await fetch('http://localhost/scannerapp/src/Components/Connection/Login.php', {
+      const response = await fetch('https://scannerst.pro/Components/Connection/Login.php', {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -31,14 +31,15 @@ function Login() {
       if (data.success) {
         setRoll(data.roll);
 
-        if(roll.userRoll === 'Admin'){
-          window.location.href = '/Session'; // Change '/profile' to your actual profile page
-        }else{
-          window.location.href = '/'; // Change '/profile' to your actual profile page
+        if (rolls && rolls.userRoll === 'Admin') {
+          console.log(rolls.userRoll);
+          window.location.href = '/Session';
+        } else {
+          window.location.href = '/';
         }
 
       } 
-      if(data.success == false) {
+      if(!data.success) {
         setError('Invalid username or password');
       }
     } catch (error) {

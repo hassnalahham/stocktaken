@@ -22,7 +22,7 @@ function Codes() {
 
   const handleDownload = () => {
     // Trigger the download by making a request to the PHP script
-    const downloadUrl = 'http://localhost/scannerapp/src/Components/Admin/AdminComponents/Connection//DownloadCode.php'; // Replace with your actual backend URL
+    const downloadUrl = 'https://scannerst.pro/Components/Admin/AdminComponents/Connection//DownloadCode.php'; // Replace with your actual backend URL
 
     // Create a hidden link and click it to initiate the download
     const link = document.createElement('a');
@@ -36,7 +36,7 @@ function Codes() {
 
   const handleDelete = (option) => {
     console.log(`Deleting ${option} for barcode ${selectedBarcode}`);
-      fetch('http://localhost/scannerapp/src/Components/Connection/DeleteBarcode.php', {
+      fetch('https://scannerst.pro/Components/Connection/DeleteBarcode.php', {
       method: 'POST',
       credentials: 'include', // Include credentials
       headers: {
@@ -68,7 +68,7 @@ function Codes() {
 
   const fetchLatestBarcodes = () => {
     // Fetch the latest barcodes from the server
-    fetch('http://localhost/scannerapp/src/Components/Admin/AdminComponents/Connection/GetScannedBarcodes.php', {
+    fetch('https://scannerst.pro/Components/Admin/AdminComponents/Connection/GetScannedBarcodes.php', {
       method: 'GET',
       credentials: 'include',
     })

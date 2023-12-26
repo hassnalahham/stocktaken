@@ -6,7 +6,7 @@ import Profile from './Components/Profile';
 //import Header from './Components/Header';
 import Header2 from './Components/Header2';
 import Footer from './Components/Footer';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { HashRouter as Router, Route, Routes } from 'react-router-dom';
 
 
 
@@ -24,7 +24,7 @@ function App() {
      // Fetch user information from the server
      const fetchUserInfo = async () => {
       try {
-        const response = await fetch('http://localhost/scannerapp/src/Components/Admin/AdminComponents/Connection/GetSession.php', {
+        const response = await fetch('https://scannerst.pro/Components/Admin/AdminComponents/Connection/GetSession.php', {
           method: 'GET',
           credentials: 'include',
         });

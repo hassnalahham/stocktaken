@@ -10,7 +10,8 @@ import AdminSearch from './AdminComponents/AdminSearch';
 import Session from './AdminComponents/Session';
 
 import Footer from '../Footer';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { HashRouter as Router, Route, Routes } from 'react-router-dom';
+
 
 
 
@@ -31,7 +32,7 @@ function Admin() {
      // Fetch user information from the server
      const fetchUserInfo = async () => {
       try {
-        const response = await fetch('http://localhost/scannerapp/src/Components/Admin/AdminComponents/Connection/GetSession.php', {
+        const response = await fetch('https://scannerst.pro/Components/Admin/AdminComponents/Connection/GetSession.php', {
           method: 'GET',
           credentials: 'include',
         });

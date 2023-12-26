@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './Style/AddManualy.css';
 
 function AddManualy() {
@@ -27,7 +27,7 @@ function AddManualy() {
   
   const sendBarcodeToServer = () => {
     // Send barcode data to the server using fetch or any other method
-    fetch('http://localhost/scannerapp/src/Components/Connection/InsertBarcodeManually.php', {
+    fetch('https://scannerst.pro/Components/Connection/InsertBarcodeManually.php', {
       method: 'POST',
       credentials: 'include', // Include credentials
       headers: {

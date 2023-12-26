@@ -11,7 +11,7 @@ function Profile() {
     // Fetch user information from the server
     const fetchUserInfo = async () => {
       try {
-        const response = await fetch('http://localhost/scannerapp/src/Components/Connection/GetProfile.php', {
+        const response = await fetch('https://scannerst.pro/Components/Connection/GetProfile.php', {
           method: 'GET',
           credentials: 'include',
         });
@@ -35,7 +35,7 @@ function Profile() {
 
   const handleDownload = () => {
     // Trigger the download by making a request to the PHP script
-    const downloadUrl = 'http://localhost/scannerapp/src/Components/Connection/DownloadCode.php'; // Replace with your actual backend URL
+    const downloadUrl = 'https://scannerst.pro/Components/Connection/DownloadCode.php'; // Replace with your actual backend URL
 
     // Create a hidden link and click it to initiate the download
     const link = document.createElement('a');

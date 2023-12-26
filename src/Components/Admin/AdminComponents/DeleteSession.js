@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './Style/Users.css';
 
 function DeleteSession() {
@@ -16,7 +16,7 @@ function DeleteSession() {
 
 
   const handleEnd = () => {
-    fetch('http://localhost/scannerapp/src/Components/Admin/AdminComponents/Connection/DeleteSession.php', {
+    fetch('https://scannerst.pro/Components/Admin/AdminComponents/Connection/DeleteSession.php', {
         method: 'POST',
         credentials: 'include',
         headers: {

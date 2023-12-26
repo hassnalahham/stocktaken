@@ -19,7 +19,7 @@ function Reports() {
 
   const handleDownload = () => {
     // Trigger the download by making a request to the PHP script
-    const downloadUrl = 'http://localhost/scannerapp/src/Components/Admin/AdminComponents/Connection//DownloadReports.php'; // Replace with your actual backend URL
+    const downloadUrl = 'https://scannerst.pro/Components/Admin/AdminComponents/Connection//DownloadReports.php'; // Replace with your actual backend URL
 
     // Create a hidden link and click it to initiate the download
     const link = document.createElement('a');
@@ -33,7 +33,7 @@ function Reports() {
 
   const fetchLatestBarcodes = () => {
     // Fetch the latest barcodes from the server
-    fetch('http://localhost/scannerapp/src/Components/Admin/AdminComponents/Connection/GetReports.php', {
+    fetch('https://scannerst.pro/Components/Admin/AdminComponents/Connection/GetReports.php', {
       method: 'GET',
       credentials: 'include',
     })

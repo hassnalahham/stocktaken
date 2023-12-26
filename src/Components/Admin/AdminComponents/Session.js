@@ -11,7 +11,7 @@ function Session() {
   // Fetch user information from the server
   const fetchUserInfo = async () => {
     try {
-      const response = await fetch('http://localhost/scannerapp/src/Components/Admin/AdminComponents/Connection/GetSession.php', {
+      const response = await fetch('https://scannerst.pro/Components/Admin/AdminComponents/Connection/GetSession.php', {
         method: 'GET',
         credentials: 'include',
       });

@@ -22,7 +22,7 @@ function Codes() {
 
   const handleDelete = (option) => {
     console.log(`Deleting ${option} for barcode ${selectedBarcode}`);
-      fetch('http://localhost/scannerapp/src/Components/Connection/DeleteBarcode.php', {
+      fetch('https://scannerst.pro/Components/Connection/DeleteBarcode.php', {
       method: 'POST',
       credentials: 'include', // Include credentials
       headers: {
@@ -54,7 +54,7 @@ function Codes() {
 
   const fetchLatestBarcodes = () => {
     // Fetch the latest barcodes from the server
-    fetch('http://localhost/scannerapp/src/Components/Connection/GetGroupedBarcode.php', {
+    fetch('https://scannerst.pro/Components/Connection/GetGroupedBarcode.php', {
       method: 'GET',
       credentials: 'include',
     })

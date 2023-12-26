@@ -17,7 +17,7 @@ function Header() {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch('http://localhost/scannerapp/src/Components/Connection/Logout.php', {
+      const response = await fetch('https://scannerst.pro/Components/Connection/Logout.php', {
         method: 'POST',
         credentials: 'include',
       });
@@ -40,7 +40,7 @@ function Header() {
   useEffect(() => {
    const fetchUserInfo = async () => {
     try {
-      const response = await fetch('http://localhost/scannerapp/src/Components/Admin/AdminComponents/Connection/GetSession.php', {
+      const response = await fetch('https://scannerst.pro/Components/Admin/AdminComponents/Connection/GetSession.php', {
         method: 'GET',
         credentials: 'include',
       });

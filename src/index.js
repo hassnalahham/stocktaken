@@ -5,6 +5,7 @@ import './index.css';
 import App from './App';
 import Admin from './Components/Admin/Admin';
 import Login from './Components/Login'; // Import the Login component
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 
 const Index = () => {
@@ -16,7 +17,7 @@ const Index = () => {
     // Fetch user information from the server
     const fetchUserInfo = async () => {
       try {
-        const response = await fetch('http://localhost/scannerapp/src/Components/Connection/GetProfile.php', {
+        const response = await fetch('https://scannerst.pro/Components/Connection/GetProfile.php', {
           method: 'GET',
           credentials: 'include',
         });
@@ -24,7 +25,7 @@ const Index = () => {
         const data = await response.json();
 
         if (data.success) {
-          if(data.user.roll == 'Admin'){
+          if(data.user.roll === 'Admin'){
             setIsAdmin(true);
             setIsLoggedIn(true);
           }else{
@@ -53,8 +54,16 @@ const Index = () => {
   );
 };
 
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: https://cra.link/PWA
+serviceWorkerRegistration.register();
+
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<Index />);
+
+
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

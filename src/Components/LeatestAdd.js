@@ -6,7 +6,7 @@ function LastAdded() {
 
   const fetchLatestBarcodes = async () => {
     try {
-      const response = await fetch('http://localhost/scannerapp/src/Components/Connection/GetBarcode.php', {
+      const response = await fetch('https://scannerst.pro/Components/Connection/GetBarcode.php', {
         credentials: 'include', // Include credentials
       });
       const data = await response.json();

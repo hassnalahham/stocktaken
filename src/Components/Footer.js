@@ -4,7 +4,7 @@ import React from 'react';
 function Footer() {
   return (
     <footer className="footer">
-      <p>&copy; 2023 To Asia Mobile Phone LLC</p>
+      <p>&copy; 2023 / 2024</p>
     </footer>  
   );
 }

@@ -30,7 +30,7 @@ function CreateSession() {
   const handleCreate = (formData) => {
     setLoading(true); // Set loading to true before making the fetch request
 
-    fetch('http://localhost/scannerapp/src/Components/Admin/AdminComponents/Connection/CreateSession.php', {
+    fetch('https://scannerst.pro/Components/Admin/AdminComponents/Connection/CreateSession.php', {
       method: 'POST',
       credentials: 'include',
       body: formData,

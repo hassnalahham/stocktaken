@@ -30,7 +30,7 @@ const AdminSearch = ({ onInsertionComplete }) => {
 
   const sendBarcodeToServer = () => {
     // Send barcode data to the server using fetch or any other method
-    fetch('http://localhost/scannerapp/src/Components/Admin/AdminComponents/Connection/SearchBarcode.php', {
+    fetch('https://scannerst.pro/Components/Admin/AdminComponents/Connection/SearchBarcode.php', {
       method: 'POST',
       credentials: 'include', // Include credentials
       headers: {

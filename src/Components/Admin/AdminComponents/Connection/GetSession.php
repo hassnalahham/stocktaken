@@ -1,5 +1,5 @@
 <?php
-header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Origin: https://scannerst.pro/");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Access-Control-Allow-Credentials: true");
@@ -10,7 +10,7 @@ session_start();
 // Check if the user is logged in
 if (isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn'] === true) {
             // User is logged in, return user information
-            $conn = new mysqli('localhost', 'root', '', 'stocktaken');
+            $conn = new mysqli('localhost:3306', 'scanners_root', 'Zcjqf6679xk2', 'scanners_stocktaken');
 
             // Check connection
             if ($conn->connect_error) {

@@ -27,7 +27,7 @@ function Users() {
   }
 
   const handleEdit = () => {
-    fetch('http://localhost/scannerapp/src/Components/Admin/AdminComponents/Connection/EditUser.php', {
+    fetch('https://scannerst.pro/Components/Admin/AdminComponents/Connection/EditUser.php', {
       method: 'POST',
       credentials: 'include',
       headers: {
@@ -60,7 +60,7 @@ function Users() {
 
   const fetchLatestBarcodes = async () => {
     try {
-      const response = await fetch('http://localhost/scannerapp/src/Components/Admin/AdminComponents/Connection/GetUsers.php', {
+      const response = await fetch('https://scannerst.pro/Components/Admin/AdminComponents/Connection/GetUsers.php', {
         credentials: 'include',
       });
       const data = await response.json();
@@ -135,26 +135,26 @@ function Users() {
               <>
                 <div>
                   <div className='coolinput'>
-                    <label htmlFor='input' className='text'>
+                    <label htmlFor='fname' className='text'>
                       First Name:
                     </label>
                     <input
                       type='text'
                       placeholder='Write here...'
-                      name='input'
+                      name='fname'
                       className='input'
                       value={selectedUser.userFirstname}
                       onChange={(e) => handleInputChange('userFirstname', e.target.value)}
                     />
                   </div>
                   <div className='coolinput'>
-                    <label htmlFor='input' className='text'>
+                    <label htmlFor='lname' className='text'>
                       Last Name:
                     </label>
                     <input
                       type='text'
                       placeholder='Write here...'
-                      name='input'
+                      name='lname'
                       className='input'
                       value={selectedUser.userLastname}
                       onChange={(e) => handleInputChange('userLastname', e.target.value)}
@@ -162,11 +162,11 @@ function Users() {
                   </div>
 
                   <div className='coolinput'>
-                    <label htmlFor='input' className='text'>
+                    <label htmlFor='status' className='text'>
                       Status:
                     </label>
                     <select
-                      name='input'
+                      name='status'
                       className='input'
                       value={selectedUser.userStatus}
                       onChange={(e) => handleInputChange('userStatus', e.target.value)}
@@ -177,11 +177,11 @@ function Users() {
                   </div>
 
                   <div className='coolinput'>
-                    <label htmlFor='input' className='text'>
+                    <label htmlFor='roll' className='text'>
                       Roll:
                     </label>
                     <select
-                      name='input'
+                      name='roll'
                       className='input'
                       value={selectedUser.userRoll}
                       onChange={(e) => handleInputChange('userRoll', e.target.value)}
@@ -192,13 +192,13 @@ function Users() {
                   </div>
 
                   <div className='coolinput'>
-                    <label htmlFor='input' className='text'>
+                    <label htmlFor='password' className='text'>
                       Password:
                     </label>
                     <input
                        type={showPassword ? 'text' : 'password'}
                       placeholder='Write here...'
-                      name='input'
+                      name='password'
                       className='input'
                       value={selectedUser.userPassword}
                       onChange={(e) => handleInputChange('userPassword', e.target.value)}

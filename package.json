@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "main": "server.js",
   "private": true,
+  "proxy": "https://scannerst.pro/",
+  "homepage": "https://scannerst.pro/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",

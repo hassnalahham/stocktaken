@@ -17,7 +17,7 @@ function Header() {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch('http://localhost/scannerapp/src/Components/Connection/Logout.php', {
+      const response = await fetch('https://scannerst.pro/Components/Connection/Logout.php', {
         method: 'POST',
         credentials: 'include',
       });
@@ -37,7 +37,7 @@ function Header() {
   return (
     <>
       <header className="navbar">
-          <h2>Asia Mobile ST</h2>
+          <h2>Scanner ST</h2>
           <div>
           <Link to="./Codes" className={location.pathname === "/Codes" ? "activeRoute" : "navlink"} >Codes</Link>
           <Link to="./" className={location.pathname === "/" ? "activeRoute" : "navlink"} >Scan</Link>
@@ -46,7 +46,7 @@ function Header() {
           </div>
           </header>
       <header className='mobilenavbar'>
-         <h1>Asia Mobile ST</h1>
+         <h1>Scanner ST</h1>
          <button onClick={OpenMenu}>=</button>
          {isOpen ? ( 
          <>
