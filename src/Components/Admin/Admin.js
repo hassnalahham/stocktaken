@@ -76,6 +76,7 @@ function Admin() {
             
             <>
             <Route path="/" element={<Session/>} />
+            <Route path="/Session" element={<Session/>} />
             <Route path="/Users" element={<Users/>} />
             </>}   
             

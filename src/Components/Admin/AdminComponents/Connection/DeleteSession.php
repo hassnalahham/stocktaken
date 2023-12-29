@@ -46,6 +46,8 @@ if (isset($_SESSION['SessionName'])) {
             $conn->query($deletetable);
             $deletetableRMA = "DROP TABLE " . mysqli_real_escape_string($conn, $sessionRMA);
             $conn->query($deletetableRMA);
+            $truncateQuery = "TRUNCATE TABLE barcodes";
+            $conn->query($truncateQuery);
 
             $response = ['status' => 'success', 'message' => 'Session End Successfully'];
             $stmt->close();

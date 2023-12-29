@@ -112,7 +112,7 @@ function DeleteSession() {
               <>
                <p>Are You Sure You want to End the Session ? All Scanned Barcode Will be deleteed Make sure you downloaded all the reports before ending the session</p>
                 <div className='doublebtnDiv'>
-                <button className='geenbtn' onClick={DownloadReports} disabled={downloaded ? true : false}>
+                <button className='greenbtn' onClick={DownloadReports} disabled={downloaded ? true : false}>
                      Download All Reports
                   </button>
                   <button className='redbtn' onClick={handleEnd}>

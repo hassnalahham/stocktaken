@@ -55,6 +55,10 @@
   width: 100%;
 }
 
+.edit-user .greenbtn:disabled{
+  background-color: rgba(189, 249, 147, 0.632);
+}
+
 .edit-user .bluebtn:disabled{
     background-color: rgba(147, 193, 249, 0.632);
 }
