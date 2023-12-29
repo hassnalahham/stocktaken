@@ -33,9 +33,9 @@ function Login() {
 
         if (rolls && rolls.userRoll === 'Admin') {
           console.log(rolls.userRoll);
-          window.location.href = '/Session';
+          window.location.href = 'https://scannerst.pro/Session';
         } else {
-          window.location.href = '/';
+          window.location.href = 'https://scannerst.pro/';
         }
 
       } 

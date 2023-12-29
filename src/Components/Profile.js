@@ -53,7 +53,7 @@ function Profile() {
       </div>
       <div className='InfoDiv'>
         {loading ? (
-          <p>Loading...</p>
+         <div className="loading"></div>
         ) : userInfo ? (
           <>
             <div className='InfoChild'>

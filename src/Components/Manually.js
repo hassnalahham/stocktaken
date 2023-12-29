@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './Style/AddManualy.css';
+import CloseMenuIcon from './Assest/Images/b_x.svg';
+
 
 function AddManualy() {
   const [isOpen, setIsOpen] = useState(false);
@@ -68,7 +70,7 @@ function AddManualy() {
         <div className='overlay' onClick={closeManuallyWindow}></div>
         <div className='Add-Manually-Window'>
             <h1>Add Manually</h1>
-            <button className='CloseWindow' onClick={closeManuallyWindow} >X</button>
+            <button className='CloseWindow' onClick={closeManuallyWindow} ><img src={CloseMenuIcon}></img></button>
           <form>
               <input
                 type='text'

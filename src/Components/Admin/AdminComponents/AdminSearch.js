@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import '../../Style/Barcode.css';
 import './Style/Card.css';
+import CheckIcon from '../../Assest/Images/check.svg';
+import NoCheckIcon from '../../Assest/Images/r_x.svg';
 
 const AdminSearch = ({ onInsertionComplete }) => {
   const [barcode, setBarcode] = useState('');
@@ -83,7 +85,7 @@ const AdminSearch = ({ onInsertionComplete }) => {
   }, [barcode, isCooldown, handleScanComplete]);
 
   return (
-    <div>
+    <div className='scanpagediv'>
       {errorMessage && (
         <div className="error-popup">
           <p>{errorMessage}</p>
@@ -91,7 +93,10 @@ const AdminSearch = ({ onInsertionComplete }) => {
         </div>
       )}
 
-      <div className='barcode39'>{barcode}</div>
+      <div className='barcodesesction'>
+        <div className='barcode39'>{barcode}</div>
+      </div>
+      
       <>
        {isSearched ? 
        <div className='searchedDiv'>
@@ -111,7 +116,7 @@ const AdminSearch = ({ onInsertionComplete }) => {
             </tr>
             <tr>
               <td>Status  </td>
-              <td>{searched.qty_difference === '0' ? 'Reached' : 'Not Reached'}</td>
+              <td>{searched.qty_difference === '0' ? <img src={CheckIcon}></img> : <img src={NoCheckIcon}></img>}</td>
             </tr>
           </tbody>
         </table>

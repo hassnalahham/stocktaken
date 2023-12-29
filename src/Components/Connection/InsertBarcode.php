@@ -15,14 +15,16 @@ if (!isset($_SESSION['SessionName'])) {
     $response = ['status' => 'error', 'message' => 'No Session Started yet'];
     echo json_encode($response);
     exit;
-}
-
-// Check if barcode data is present
-if (isset($data['barcode'])) {
+} else if (!isset($_SESSION['SessionNameRMA'])) {
+    $response = ['status' => 'error', 'message' => 'No Session Started yet RMA'];
+    echo json_encode($response);
+    exit;
+} else if (isset($data['barcode'])) { // Check if barcode data is present
     $barcode = $data['barcode'];
     $userId = $_SESSION['userId'];
     $qty = isset($data['quantity']) ? $data['quantity'] : 1;
     $sessionData = $_SESSION['SessionName'];
+    $sessionDataRMA = $_SESSION['SessionNameRMA'];
 
     // Connect to the database (replace with your database credentials)
     $servername = 'localhost:3306';
@@ -36,6 +38,16 @@ if (isset($data['barcode'])) {
     if ($conn->connect_error) {
         die('Connection failed: ' . $conn->connect_error);
     }
+
+    $checkSessionTable = "SELECT * FROM $sessionDataRMA WHERE barcode = '$barcode'";
+    $checkSessionResult = $conn->query($checkSessionTable);
+    if ($checkSessionResult->num_rows > 0) {
+        $response = ['status' => 'error', 'message' => 'Use RMA button to Scan RMA items'];
+        echo json_encode($response);
+        exit;
+    }
+
+
 
     $checkSessionTable = "SELECT * FROM $sessionData WHERE barcode = '$barcode'";
     $checkSessionResult = $conn->query($checkSessionTable);

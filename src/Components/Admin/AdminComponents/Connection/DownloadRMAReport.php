@@ -15,35 +15,31 @@ $dbname = 'scanners_stocktaken';
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-$sessionName = $_SESSION['SessionName'];
+$sessionRMA = $_SESSION['SessionNameRMA'];
 
 // Fetch data from PHPMyAdmin table
 $sql = "
 SELECT 
     COALESCE(o.barcode, n.barcode) AS barcode,
-    COALESCE(o.qty, 0) AS org_qty,
-    COALESCE(n.qty, 0) AS new_qty,
-    o.qty - COALESCE(n.qty, 0) AS qty_difference,
+    COALESCE(n.rma, 0) AS rma,
     CASE 
-        WHEN o.barcode IS NOT NULL AND n.barcode IS NOT NULL AND o.qty = n.qty THEN 'Matched'
+        WHEN o.barcode IS NOT NULL AND n.barcode IS NOT NULL AND o.rma = n.rma THEN 'Matched'
         ELSE 'Unmatched'
     END AS match_status
-FROM $sessionName o
-LEFT JOIN (SELECT barcode, sum(qty) as qty from barcodes where qty>0 GROUP by barcode) n ON o.barcode = n.barcode
+FROM $sessionRMA o
+LEFT JOIN barcodes n ON o.barcode = n.barcode
 
 UNION
 
 SELECT 
     COALESCE(o.barcode, n.barcode) AS barcode,
-    COALESCE(o.qty, 0) AS org_qty,
-    COALESCE(n.qty, 0) AS new_qty,
-    o.qty - COALESCE(n.qty, 0) AS qty_difference,
+    COALESCE(n.rma, 0) AS rma,
     CASE 
-        WHEN o.barcode IS NOT NULL AND n.barcode IS NOT NULL AND o.qty = n.qty THEN 'Matched'
+        WHEN o.barcode IS NOT NULL AND n.barcode IS NOT NULL AND o.rma = n.rma THEN 'Matched'
         ELSE 'Unmatched'
     END AS match_status
-FROM $sessionName o
-RIGHT JOIN (SELECT barcode, sum(qty) as qty from barcodes where qty>0 GROUP by barcode) n ON o.barcode = n.barcode
+FROM $sessionRMA o
+RIGHT JOIN barcodes n ON o.barcode = n.barcode
 WHERE o.barcode IS NULL;
 
 ";
@@ -51,14 +47,14 @@ $result = mysqli_query($conn, $sql);
 
 // Set headers to force download
 header('Content-Type: text/csv');
-header('Content-Disposition: attachment;filename=Full_Report.csv');
+header('Content-Disposition: attachment;filename=RMA_Report.csv');
 header('Cache-Control: max-age=0');
 
 // Open output stream
 $output = fopen('php://output', 'w');
 
 // Output column headers
-$columnHeaders = array("Barcode", "Focus Qty", "Physical Qty", "Difference", "Status"); // Replace with your actual column names
+$columnHeaders = array("Barcode", "RMA"); // Replace with your actual column names
 fputcsv($output, $columnHeaders);
 
 // Output data

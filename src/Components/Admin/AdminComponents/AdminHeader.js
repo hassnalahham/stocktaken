@@ -1,6 +1,8 @@
 import '../../Style/Header2.css';
 import { Link , useLocation  } from 'react-router-dom';
 import  {React, useState, useEffect} from 'react';
+import MenuIcon from '../../Assest/Images/menu.svg';
+import CloseMenuIcon from '../../Assest/Images/w_x.svg';
 
 function Header() {
   const location = useLocation();
@@ -70,11 +72,12 @@ function Header() {
   return (
     <>
       <header className="navbar">
-            <h2>Asia Mobile ST</h2>
+            <h2>Scanner ST</h2>
             <div>
              {isSession === false  ? 
              <>
              <Link to="./Session" onClick={CloseMenu} className={location.pathname === "/Session" ? "activeRoute" : "navlink"} >Session</Link>
+             <Link to="./Users" onClick={CloseMenu} className={location.pathname === "/Users" ? "activeRoute" : "navlink"} >Users</Link>
              <Link to="./Logout"  onClick={() => { CloseMenu(); handleLogout(); }}  className={location.pathname === "/Logout" ? "activeRoute" : "navlink lastlink"} >Logout</Link>
              
              </>
@@ -91,18 +94,19 @@ function Header() {
             </div>
       </header>
       <header className='mobilenavbar'>
-      <h1>Asia Mobile ST</h1>
+      <h1>Scanner ST</h1>
         
-         <button onClick={OpenMenu}>=</button>
+         <button onClick={OpenMenu}><img src={MenuIcon}></img></button>
          {isOpen ? ( 
          <>
          <div className='overlay' onClick={CloseMenu}></div>
          <div className='mobilenavminu'>
             <h1> Menu </h1>
-            <button onClick={CloseMenu}>X</button>
+            <button onClick={CloseMenu}><img src={CloseMenuIcon}></img></button>
             {isSession === false  ? 
              <>
              <Link to="./Session" onClick={CloseMenu} className={location.pathname === "/Session" ? "activeRoute" : "navlink"} >Session</Link>
+             <Link to="./Users" onClick={CloseMenu} className={location.pathname === "/Users" ? "activeRoute" : "navlink"} >Users</Link>
              <Link to="./Logout"  onClick={() => { CloseMenu(); handleLogout(); }}  className={location.pathname === "/Logout" ? "activeRoute" : "navlink lastlink"} >Logout</Link>
              
              </>

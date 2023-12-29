@@ -8,6 +8,13 @@
     src: url('../Assest/Fonts/code-128.woff2') format('woff2');
   }
 
+  .barcodesesction{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
 .barcode39 {
     font-family: 'Code 128' , sans-serif;
     font-size: 6em;
@@ -15,6 +22,7 @@
     padding: 0.5vh 0 4vh 0;
     margin-top: 10px;
     height: 10vh;
+    width: 90%;
   }
 
  
@@ -27,4 +35,13 @@
     margin-top: 10vh;
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adjust the values as needed */
+  }
+
+  .scanpagediv{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    row-gap: 2px;
   }

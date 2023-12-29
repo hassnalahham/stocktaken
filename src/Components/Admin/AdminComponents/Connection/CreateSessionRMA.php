@@ -16,14 +16,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // Check if barcode data is present
-if (isset($_POST['SessionName']) && isset($_FILES['SessionFile'])) {
+if (isset($_FILES['SessionFile'])) {
     try {
-        $sessionName = $_POST['SessionName'];
+        $sessionName = $_SESSION['SessionName'];
         $sessionFile = $_FILES['SessionFile'];
         $user_id = $_SESSION['userId'];
         $account_id = $_SESSION['accountId'];
-        $status = 'Active';
-        $current_date = date("Y-m-d H:i:s");
         $sessionRMA = $sessionName . 'rma';
 
         // Connect to the database (replace with your database credentials)
@@ -39,39 +37,15 @@ if (isset($_POST['SessionName']) && isset($_FILES['SessionFile'])) {
         }
 
         // Check if a matching session already exists
-        $sqlc = "SELECT * FROM sessions WHERE session_name='$sessionName'";
+        $sqlc = "SELECT * FROM sessions WHERE session_name='$sessionName' AND session_rma='$sessionRMA'";
         $resultc = $conn->query($sqlc);
 
-        if ($resultc->num_rows > 0) {
-            $response = ['status' => 'error', 'message' => 'Session Name Already Exists'];
+        if ($resultc->num_rows < 1) {
+            echo json_encode(['success' => false, 'message' => 'Error While Inserting']);
             $resultc->close(); // Close the result set
             $conn->close();
-            echo json_encode($response);
             exit();
         } else {
-            // Insert the new user
-            $updatesql = "INSERT INTO sessions (session_name, account_id, user_id, create_time, status, session_rma) VALUES (?, ?, ?, ?, ?, ?)";
-            $stmt = $conn->prepare($updatesql);
-            $stmt->bind_param('siisss', $sessionName, $account_id, $user_id, $current_date, $status, $sessionRMA);
-
-            if ($stmt->execute()) {
-                // Create a new table with barcode and qty columns
-                $createTableSQL = "CREATE TABLE $sessionName (
-                                    column_id INT AUTO_INCREMENT  NOT NULL,
-                                    barcode VARCHAR(255) NOT NULL,
-                                    qty INT NOT NULL,
-                                    PRIMARY KEY (column_id)
-                                  )";
-                $conn->query($createTableSQL);
-
-                $createTableSQLRMA = "CREATE TABLE $sessionRMA (
-                    column_id INT AUTO_INCREMENT  NOT NULL,
-                    barcode VARCHAR(255) NOT NULL,
-                    rma VARCHAR(255) NOT NULL,
-                    PRIMARY KEY (column_id)
-                  )";
-                $conn->query($createTableSQLRMA);
-
                 // Insert data from the CSV file
                 $csvFile = fopen($sessionFile['tmp_name'], 'r');
 
@@ -82,12 +56,12 @@ if (isset($_POST['SessionName']) && isset($_FILES['SessionFile'])) {
                 while (($data = fgetcsv($csvFile, 0, ',')) !== false) {
                     $barcode = $data[0];
                     $qty = $data[1];
-                    $insertDataSQL = "INSERT INTO $sessionName (barcode, qty) VALUES (?, ?)";
+                    $insertDataSQL = "INSERT INTO $sessionRMA (barcode, rma) VALUES (?, ?)";
                     $insertStmt = $conn->prepare($insertDataSQL);
-                    $insertStmt->bind_param('si', $barcode, $qty);
+                    $insertStmt->bind_param('ss', $barcode, $qty);
 
                     if ($insertStmt->execute()) {
-                        echo "Row inserted successfully: Barcode=$barcode, Qty=$qty<br>";
+                        echo "Row inserted successfully: Barcode=$barcode, RMA=$qty<br>";
                     } else {
                         echo "Error inserting row: " . $insertStmt->error . "<br>";
                         $conn->rollback(); // Roll back the transaction on error
@@ -99,27 +73,20 @@ if (isset($_POST['SessionName']) && isset($_FILES['SessionFile'])) {
                 }
 
                 fclose($csvFile);
-
-                $response = ['status' => 'success', 'message' => 'New Session Created Successfully: ' . $sessionName];
-                $stmt->close();
-            } else {
-                $response = ['status' => 'error', 'message' => 'Error Creating Session: ' . $stmt->error];
-            }
+                $conn->commit(); // Commit the transaction
+                echo json_encode(['success' => true]);
         }
+        $resultc->close();
         $conn->close();
     } catch (Exception $e) {
-        $response = ['status' => 'error', 'message' => 'Error: ' . $e->getMessage()];
+        echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
         http_response_code(500); // Internal Server Error
-        echo json_encode($response);
         exit();
     }
 } else {
-    $response = ['status' => 'error', 'message' => 'Session data not provided'];
+    echo json_encode(['success' => false, 'message' => 'Session data not provided']);
     http_response_code(400); // Bad Request
-    echo json_encode($response);
     exit();
 }
-
-echo json_encode($response);
 exit();
 ?>

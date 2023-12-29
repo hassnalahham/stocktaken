@@ -26,7 +26,7 @@
     border: 1px solid #ccc;
     padding: 20px;
     box-shadow: 0 0 10px  rgba(0, 0, 0, 0.2);
-    z-index: 800;
+    z-index: 1000;
     width: 300px;
     height: auto;
     border-radius: 10px;
@@ -48,6 +48,12 @@
 .edit-user .bluebtn{
     width: 100%;
 }
+.edit-user .redbtn{
+  width: 100%;
+}
+.edit-user .greenbtn{
+  width: 100%;
+}
 
 .edit-user .bluebtn:disabled{
     background-color: rgba(147, 193, 249, 0.632);
@@ -63,6 +69,17 @@
     font-size: x-large;
   }
 
+   
+  .edit-user  .DeleteUserBtn{
+  position: absolute;
+  left: 10px;
+  top: 12px;
+  background-color: transparent;
+  border:none;
+  padding: 5px;
+  font-size: x-large;
+  width: 40px;
+}
 
 
   .coolinput {
@@ -128,14 +145,14 @@
 
 .showpassword {
     position: relative;
-    margin-left: 80%; /* Adjust the margin to your preference */
+    margin-left: 85%; /* Adjust the margin to your preference */
     margin-top: -55px;
     cursor: pointer;
     background-color: transparent;
     border: none;
     color: #333; /* Choose your desired color */
-    font-size: 24px;
     outline: none;
+    width: 40px;
   }
   
   .showpassword:hover {

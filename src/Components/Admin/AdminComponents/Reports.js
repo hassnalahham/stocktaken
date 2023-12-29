@@ -31,6 +31,21 @@ function Reports() {
   };
 
 
+  const handleRMADownload = () => {
+    // Trigger the download by making a request to the PHP script
+    const downloadUrl = 'https://scannerst.pro/Components/Admin/AdminComponents/Connection//DownloadRMAReport.php'; // Replace with your actual backend URL
+
+    // Create a hidden link and click it to initiate the download
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.download = 'ST.xlsx';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+
+
   const fetchLatestBarcodes = () => {
     // Fetch the latest barcodes from the server
     fetch('https://scannerst.pro/Components/Admin/AdminComponents/Connection/GetReports.php', {
@@ -98,6 +113,9 @@ function Reports() {
       </div>
       <div>
         <button className='bluebtn' onClick={handleDownload}>Download Report</button>
+      </div>
+      <div>
+        <button className='bluebtn' onClick={handleRMADownload}>Download RMA</button>
       </div>
     </div>
   );

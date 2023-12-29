@@ -47,7 +47,7 @@ function LastAdded() {
   }
 
   // Limit the displayed rows to the latest 5 barcodes
-  const limitedBarcodes = latestBarcodes.slice(0, 5);
+  const limitedBarcodes = latestBarcodes.slice(0, 3);
 
   return (
     <div className='LatestDiv'>

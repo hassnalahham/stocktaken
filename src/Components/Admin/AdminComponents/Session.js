@@ -1,79 +1,100 @@
 import CreateSession from './CreateSession';
 import DeleteSession from './DeleteSession';
-import React, { useState, useEffect } from 'react';
+import CreateRMA from './CreateRMA';
 
+import React, { useState, useEffect } from 'react';
 
 function Session() {
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [SessionInfo, setSessionInfo] = useState(null);
+  const [sessionInfo, setSessionInfo] = useState(null);
+  const [RMAbtn, setRMAbtn] = useState(false);
 
-  // Fetch user information from the server
-  const fetchUserInfo = async () => {
+  const fetchSessionInfo = async () => {
     try {
       const response = await fetch('https://scannerst.pro/Components/Admin/AdminComponents/Connection/GetSession.php', {
         method: 'GET',
         credentials: 'include',
       });
-
       const data = await response.json();
+
       if (data.success) {
         setSuccess(true);
         setSessionInfo(data.session);
-      }else{
+        // Only fetch RMA info if RMAbtn is false
+        if (!RMAbtn) {
+          fetchRMAInfo();
+        }
+      } else {
         setSuccess(false);
         setSessionInfo(null);
+        setRMAbtn(false);
       }
-     
     } catch (error) {
-      console.error('Error fetching user information:', error);
+      console.error('Error fetching session information:', error);
     } finally {
       setLoading(false);
     }
   };
 
-  
+  const fetchRMAInfo = async () => {
+    try {
+      const response = await fetch('https://scannerst.pro/Components/Admin/AdminComponents/Connection/GetRMA.php', {
+        method: 'GET',
+        credentials: 'include',
+      });
+      const data = await response.json();
+
+      if (data.success) {
+        setRMAbtn(true);
+      } else {
+        setRMAbtn(false);
+      }
+    } catch (error) {
+      console.error('Error fetching RMA information:', error);
+    }
+  };
+
   useEffect(() => {
-  
+    // Fetch session information immediately
+    fetchSessionInfo();
 
-    fetchUserInfo();
-
+    // Poll for session information every 500 milliseconds
     const intervalId = setInterval(() => {
-      fetchUserInfo();
+      fetchSessionInfo();
     }, 500);
 
     return () => {
       clearInterval(intervalId);
     };
+  }, []); // Empty dependency array ensures the effect runs only once after the initial render
 
-  }, []);
-
-  
   return (
     <>
-    <div className='Profile'>
-      <div className='InfoDiv'>
-        {loading ? (
-          <p>Loading...</p>
-        ) : SessionInfo ? (
-          <>
-            <div className='InfoChild'>
-              <p>Session Name: {SessionInfo.SessionName}</p>
-            </div>
-            <div className='InfoChild'>
-              <p>Status: {SessionInfo.SessionStatus}</p>
-            </div>
-            <div className='InfoChild'>
-              <p>Time: {SessionInfo.SessionTime}</p>
-            </div>
-          </>
-        ) : (
-          <p>No session information available.</p>
-        )}
+      <div className='Profile'>
+        <div className='InfoDiv'>
+          {loading ? (
+            <div className="loading"></div>
+          ) : sessionInfo ? (
+            <>
+              <div className='InfoChild'>
+                <p>Session Name: {sessionInfo.SessionName}</p>
+              </div>
+              <div className='InfoChild'>
+                <p>Status: {sessionInfo.SessionStatus}</p>
+              </div>
+              <div className='InfoChild'>
+                <p>Time: {sessionInfo.SessionTime}</p>
+              </div>
+              {RMAbtn ? <CreateRMA /> : null}
+            </>
+          ) : (
+            <p>No session information available.</p>
+          )}
+        </div>
       </div>
-    </div>
-    {success ? <DeleteSession/> : <CreateSession/>}
-      
+
+      {success ? <DeleteSession /> : <CreateSession />}
     </>
   );
 }

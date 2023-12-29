@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Style/Codes.css';
+import CloseMenuIcon from './Assest/Images/b_x.svg';
 
 function Codes() {
   const [latestBarcodes, setLatestBarcodes] = useState([]);
@@ -112,7 +113,7 @@ function Codes() {
             <div className='Add-Manually-Window'>
               <h1>Delete</h1>
               <button className='CloseWindow' onClick={closeManuallyWindow}>
-                X
+              <img src={CloseMenuIcon}></img>
               </button>
               <p>Are you sure you want to delete <br /> <b>{selectedBarcode}</b>  ?</p>
               {selectedBarcode && (

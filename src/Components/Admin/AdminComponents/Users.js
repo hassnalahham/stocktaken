@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './Style/Users.css';
 import AddUser from './CreateUser';
+import CloseMenuIcon from '../../Assest/Images/b_x.svg';
+import PasswordOff from '../../Assest/Images/eye-off.svg';
+import PasswordOn from '../../Assest/Images/eye.svg';
+import DeleteIcon from '../../Assest/Images/trash-2.svg';
 
 function Users() {
   const [users, setUsers] = useState([]);
@@ -28,6 +32,34 @@ function Users() {
 
   const handleEdit = () => {
     fetch('https://scannerst.pro/Components/Admin/AdminComponents/Connection/EditUser.php', {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ selectedUser }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Server response:', data);
+
+        if (data.status === 'error') {
+          setErrorMessage(data.message);
+        } else {
+          setErrorMessage('');
+        }
+      })
+      .catch(error => {
+        console.error('Error sending barcode to server:', error);
+        setErrorMessage('An error occurred while communicating with the server.');
+      });
+
+    closeManuallyWindow();
+  };
+
+
+  const handleDelete = () => {
+    fetch('https://scannerst.pro/Components/Admin/AdminComponents/Connection/DeleteUser.php', {
       method: 'POST',
       credentials: 'include',
       headers: {
@@ -126,7 +158,10 @@ function Users() {
           <div className='edit-user'>
             <h1>Edit User</h1>
             <button className='CloseWindow' onClick={closeManuallyWindow}>
-              X
+            <img src={CloseMenuIcon}></img>
+            </button>
+            <button className='DeleteUserBtn' onClick={handleDelete}>
+            <img src={DeleteIcon}></img>
             </button>
             <p>
               <b>{selectedUser.userFullname}</b>{' '}
@@ -204,7 +239,7 @@ function Users() {
                       onChange={(e) => handleInputChange('userPassword', e.target.value)}
                     >
                     </input>
-                    <button className='showpassword' onClick={togglePassword}>🔑</button>
+                    <button className='showpassword' onClick={togglePassword}>{showPassword ? <img src={PasswordOn}></img> : <img src={PasswordOff}></img>}</button>
                   </div>
 
                   <button className='bluebtn' onClick={handleEdit} disabled={isSaveButtonDisabled}>

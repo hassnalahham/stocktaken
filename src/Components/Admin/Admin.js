@@ -28,38 +28,31 @@ function Admin() {
 
 
 
-  useEffect(() => {
-     // Fetch user information from the server
-     const fetchUserInfo = async () => {
-      try {
-        const response = await fetch('https://scannerst.pro/Components/Admin/AdminComponents/Connection/GetSession.php', {
-          method: 'GET',
-          credentials: 'include',
-        });
-
-        const data = await response.json();
-
-        if (data.success) {
-            setIsSession(true);
-        }else{
-          setIsSession(false);
-        }
-      } catch (error) {
-        console.error('Error fetching user information:', error);
+  const fetchUserInfo = async () => {
+    try {
+      const response = await fetch('https://scannerst.pro/Components/Admin/AdminComponents/Connection/GetSession.php', {
+        method: 'GET',
+        credentials: 'include',
+      });
+  
+      const data = await response.json();
+  
+      if (data.success) {
+        setIsSession(true);
+      } else {
+        setIsSession(false);
       }
-    };
-
+    } catch (error) {
+      console.error('Error fetching user information:', error);
+    } finally {
+      setTimeout(fetchUserInfo, 60000); // Retry after 60 seconds
+    }
+  };
+  
+  useEffect(() => {
     fetchUserInfo();
-
-    const intervalId = setInterval(() => {
-      fetchUserInfo();
-    }, 500);
-
-    return () => {
-      clearInterval(intervalId);
-    };
-
   }, []);
+  
 
   
 
@@ -82,7 +75,8 @@ function Admin() {
             </>: 
             
             <>
-            <Route path="/Session" element={<Session/>} />
+            <Route path="/" element={<Session/>} />
+            <Route path="/Users" element={<Users/>} />
             </>}   
             
           </Routes>

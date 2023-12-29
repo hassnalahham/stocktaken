@@ -44,7 +44,7 @@ const Index = () => {
 
   if (loading) {
     // You can render a loading indicator here if needed
-    return <div>Loading...</div>;
+    return <div className="loading"></div>;
   }
 
   return (

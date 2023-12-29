@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import './Style/Users.css';
+import CloseMenuIcon from '../../Assest/Images/b_x.svg';
+import PasswordOff from '../../Assest/Images/eye-off.svg';
+import PasswordOn from '../../Assest/Images/eye.svg';
 
 function CreateUser() {
   const [isOpen, setIsOpen] = useState(false);
@@ -79,7 +82,7 @@ function CreateUser() {
           <div className='edit-user'>
             <h1>Create User</h1>
             <button className='CloseWindow' onClick={closeManuallyWindow}>
-              X
+            <img src={CloseMenuIcon}></img>
             </button>
               <>
                 <div>
@@ -151,7 +154,7 @@ function CreateUser() {
                       autoComplete="new-password"
                     >
                     </input>
-                    <button className='showpassword' onClick={togglePassword}>🔑</button>
+                    <button className='showpassword' onClick={togglePassword}>{showPassword ? <img src={PasswordOn}></img> : <img src={PasswordOff}></img>}</button>
                   </div>
 
                   <button className='bluebtn' onClick={handleCreate} disabled={isSaveButtonDisabled}>

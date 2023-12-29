@@ -27,11 +27,12 @@ if (isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn'] === true) {
                 $current_time = strtotime($current_date);
                 $time_difference = $current_time - $create_time;
                 $formatted_time_difference = gmdate("H:i:s", $time_difference);
-
-                
                 $_SESSION['SessionName'] = $row['session_name'];
+                $_SESSION['SessionNameRMA']= $row['session_rma'];
+                
             $sessionInfo = [
                 'SessionName' => $row['session_name'],
+                'SessionRMA' => $row['session_rma'],
                 'SessionStatus' => $row['status'],
                 'SessionTime' => $formatted_time_difference,
             ];

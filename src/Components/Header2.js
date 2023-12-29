@@ -1,6 +1,9 @@
 import './Style/Header2.css';
 import { Link , useLocation  } from 'react-router-dom';
 import  {React, useState} from 'react';
+import MenuIcon from './Assest/Images/menu.svg';
+import CloseMenuIcon from './Assest/Images/w_x.svg';
+
 
 function Header() {
   const location = useLocation();
@@ -47,13 +50,13 @@ function Header() {
           </header>
       <header className='mobilenavbar'>
          <h1>Scanner ST</h1>
-         <button onClick={OpenMenu}>=</button>
+         <button onClick={OpenMenu}><img src={MenuIcon}></img></button>
          {isOpen ? ( 
          <>
          <div className='overlay' onClick={CloseMenu}></div>
          <div className='mobilenavminu'>
             <h1> Menu </h1>
-            <button onClick={CloseMenu}>X</button>
+            <button onClick={CloseMenu}><img src={CloseMenuIcon}></img></button>
             <Link to="./" onClick={CloseMenu} className={location.pathname === "/" ? "activeRoute" : "navlink"} >Scan</Link>
             <Link to="./Codes" onClick={CloseMenu} className={location.pathname === "/Codes" ? "activeRoute" : "navlink"} >Codes</Link>
             <Link to="./Profile" onClick={CloseMenu} className={location.pathname === "/Profile" ? "activeRoute" : "navlink"} >Profile</Link>

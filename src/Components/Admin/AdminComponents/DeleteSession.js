@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import './Style/Users.css';
+import CloseMenuIcon from '../../Assest/Images/b_x.svg';
 
 function DeleteSession() {
   const [endAsk, setEndAsk] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [success, setSuccess] = useState(false);
+  const [downloaded, setDownloaded] = useState(false);
 
   const OpenAskWindow = () => {
     setEndAsk(true);
@@ -12,6 +13,53 @@ function DeleteSession() {
 
   const closeAskWindow = () => {
     setEndAsk(false);
+  };
+
+  const DownloadReports = () =>{
+    handleDownloadReports();
+    handleDownloadRMA();
+    handleDownloadScanned();
+    setDownloaded(true);
+  }
+
+  const handleDownloadScanned = () => {
+    // Trigger the download by making a request to the PHP script
+    const downloadUrl = 'https://scannerst.pro/Components/Admin/AdminComponents/Connection//DownloadCode.php'; // Replace with your actual backend URL
+
+    // Create a hidden link and click it to initiate the download
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.download = 'ST.xlsx';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleDownloadReports = () => {
+    // Trigger the download by making a request to the PHP script
+    const downloadUrl = 'https://scannerst.pro/Components/Admin/AdminComponents/Connection//DownloadReports.php'; // Replace with your actual backend URL
+
+    // Create a hidden link and click it to initiate the download
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.download = 'ST.xlsx';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+
+  const handleDownloadRMA = () => {
+    // Trigger the download by making a request to the PHP script
+    const downloadUrl = 'https://scannerst.pro/Components/Admin/AdminComponents/Connection//DownloadRMAReport.php'; // Replace with your actual backend URL
+
+    // Create a hidden link and click it to initiate the download
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.download = 'ST.xlsx';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
 
@@ -59,11 +107,14 @@ function DeleteSession() {
           <div className='edit-user'>
             <h1>End Session</h1>
             <button className='CloseWindow' onClick={closeAskWindow}>
-              X
+            <img src={CloseMenuIcon}></img>
             </button>
               <>
-               <p>Are You Sure You want to End the Session ?</p>
+               <p>Are You Sure You want to End the Session ? All Scanned Barcode Will be deleteed Make sure you downloaded all the reports before ending the session</p>
                 <div className='doublebtnDiv'>
+                <button className='geenbtn' onClick={DownloadReports} disabled={downloaded ? true : false}>
+                     Download All Reports
+                  </button>
                   <button className='redbtn' onClick={handleEnd}>
                      Yes
                   </button>

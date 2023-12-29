@@ -13,14 +13,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
+// Retrieve JSON data from the request
+$data = json_decode(file_get_contents('php://input'), true);
+
 // Check if barcode data is present
-if (isset($_SESSION['SessionName'])) {
-    
-    $sessionName = $_SESSION['SessionName'];
-    $sessionRMA = $_SESSION['SessionNameRMA'];
-    $user_id = $_SESSION['userId'];
-    $account_id = $_SESSION['accountId'];
-    $status = 'Deactivate';
+if (isset($data['selectedUser'])) {
+    $user = $data['selectedUser'];
+    $userId = $user['userId'];
 
     // Connect to the database (replace with your database credentials)
     $servername = 'localhost:3306';
@@ -30,28 +29,19 @@ if (isset($_SESSION['SessionName'])) {
 
     try {
         $conn = new mysqli($servername, $username, $password, $dbname);
-
+    
         if ($conn->connect_error) {
             throw new Exception('Connection failed: ' . $conn->connect_error);
         }
-
-        // Insert the new user
-        $updatesql = "UPDATE sessions SET status=? , enduser_id=? WHERE session_name= ? AND account_id= ?";
-        $stmt = $conn->prepare($updatesql);
-        $stmt->bind_param('sisi', $status, $user_id, $sessionName, $account_id);
-
-        if ($stmt->execute()) {
-
-            $deletetable = "DROP TABLE " . mysqli_real_escape_string($conn, $sessionName);
-            $conn->query($deletetable);
-            $deletetableRMA = "DROP TABLE " . mysqli_real_escape_string($conn, $sessionRMA);
-            $conn->query($deletetableRMA);
-
-            $response = ['status' => 'success', 'message' => 'Session End Successfully'];
-            $stmt->close();
-        } else {
-            throw new Exception('Error Ending Session: ' . $stmt->error);
-        }
+    
+        // Use prepared statement to delete user
+        $deleteUser = $conn->prepare("DELETE FROM users WHERE user_id = ?");
+        $deleteUser->bind_param("i", $userId); // Assuming user_id is an integer, adjust the type if it's different
+        $deleteUser->execute();
+    
+        $response = ['status' => 'success', 'message' => 'User Deleted Successfully'];
+        $deleteUser->close();
+    
     } catch (Exception $e) {
         $response = ['status' => 'error', 'message' => $e->getMessage()];
     } finally {
@@ -59,8 +49,9 @@ if (isset($_SESSION['SessionName'])) {
             $conn->close();
         }
     }
+    
 } else {
-    $response = ['status' => 'error', 'message' => 'Session data not provided'];
+    $response = ['status' => 'error', 'message' => 'User data not provided'];
 }
 
 echo json_encode($response);

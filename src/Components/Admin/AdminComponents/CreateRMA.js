@@ -3,18 +3,17 @@ import './Style/Users.css';
 import CloseMenuIcon from '../../Assest/Images/b_x.svg';
 // ... (existing imports)
 
-function CreateSession() {
+function CreateRMA() {
   const [isOpen, setIsOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
-  const [sessionNameChanged, setSessionNameChanged] = useState(false);
   const [fileChanged, setFileChanged] = useState(false);
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false); // New loading state
 
   useEffect(() => {
-    setIsSaveButtonDisabled(!(sessionNameChanged && fileChanged));
-  }, [sessionNameChanged, fileChanged]);
+    setIsSaveButtonDisabled(!(fileChanged));
+  }, [fileChanged]);
 
   const openManuallyWindow = () => {
     setIsOpen(true);
@@ -22,7 +21,6 @@ function CreateSession() {
 
   const closeManuallyWindow = () => {
     setIsOpen(false);
-    setSessionNameChanged(false);
     setFileChanged(false);
     setIsSaveButtonDisabled(true);
   };
@@ -30,7 +28,7 @@ function CreateSession() {
   const handleCreate = (formData) => {
     setLoading(true); // Set loading to true before making the fetch request
 
-    fetch('https://scannerst.pro/Components/Admin/AdminComponents/Connection/CreateSession.php', {
+    fetch('https://scannerst.pro/Components/Admin/AdminComponents/Connection/CreateSessionRMA.php', {
       method: 'POST',
       credentials: 'include',
       body: formData,
@@ -43,7 +41,7 @@ function CreateSession() {
       })
       .then(data => {
         console.log('Server response:', data);
-        if (data.status === 'success') {
+        if (data.success) {
           setSuccess(true);
           closeManuallyWindow();
         } else{
@@ -62,27 +60,23 @@ function CreateSession() {
   };
 
   const handleCreateButtonClick = () => {
-    const sessionName = document.getElementById('sessionNameInput').value;
     const fileInput = document.getElementById('fileInput');
     const file = fileInput.files[0];
 
-    if (sessionName && file) {
+    if (file) {
       const formData = new FormData();
-      formData.append('SessionName', sessionName);
       formData.append('SessionFile', file);
 
       handleCreate(formData);
     } else {
-      setErrorMessage('Please provide both session name and file.');
+      setErrorMessage('Please provide RMA file.');
     }
   };
 
   const hundlecreatebtn = (e) => {
     const inputId = e.target.id;
 
-    if (inputId === 'sessionNameInput') {
-      setSessionNameChanged(true);
-    } else if (inputId === 'fileInput') {
+   if (inputId === 'fileInput') {
       setFileChanged(true);
     }
   };
@@ -96,7 +90,7 @@ function CreateSession() {
         </div>
       )}
       <div>
-        <button onClick={openManuallyWindow} className='bluebtn'>Create Session</button>
+        <button onClick={openManuallyWindow} className='bluebtn'>Add RMA file</button>
       </div>
 
       {isOpen && (
@@ -110,20 +104,8 @@ function CreateSession() {
             <form encType="multipart/form-data">
               <div>
                 <div className='coolinput'>
-                  <label htmlFor='sessionNameInput' className='text'>
-                    Session Name:
-                  </label>
-                  <input
-                    id='sessionNameInput'
-                    type='text'
-                    placeholder='Write here...'
-                    className='input'
-                    onChange={hundlecreatebtn}
-                  />
-                </div>
-                <div className='coolinput'>
                   <label htmlFor='fileInput' className='text'>
-                    Session File:
+                    RMA File:
                   </label>
                   <input
                     id='fileInput'
@@ -138,7 +120,7 @@ function CreateSession() {
                   {loading ? (
                     <div className="spinner"></div>
                   ) : (
-                    'Create'
+                    'Add'
                   )}
                 </button>
               </div>
@@ -150,4 +132,4 @@ function CreateSession() {
   );
 }
 
-export default CreateSession;
+export default CreateRMA;

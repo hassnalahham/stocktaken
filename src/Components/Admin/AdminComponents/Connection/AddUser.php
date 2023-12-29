@@ -25,6 +25,7 @@ if (isset($data['CreateUser'])) {
     $roll = $user['userRoll'];
     $userusername = $user['userUsername'];
     $userpassword = $user['userPassword'];
+    $accountid =  $_SESSION['accountId'];
     $status = 'Active';
 
     // Connect to the database (replace with your database credentials)
@@ -48,9 +49,9 @@ if (isset($data['CreateUser'])) {
         $response = ['status' => 'error', 'message' => 'Username already in use'];
     } else {
         // Insert the new user
-        $updatesql = "INSERT INTO users (first_name, last_name, username, password, roll, status) VALUES (?, ?, ?, ?, ?, ?)";
+        $updatesql = "INSERT INTO users (first_name, last_name, username, password, roll, status, account_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($updatesql);
-        $stmt->bind_param('ssssss', $firstname, $lastname, $userusername, $userpassword, $roll, $status);
+        $stmt->bind_param('ssssssi', $firstname, $lastname, $userusername, $userpassword, $roll, $status, $accountid);
 
         if ($stmt->execute()) {
             $response = ['status' => 'success', 'message' => 'New User Created Successfully: ' . $firstname . ' ' . $lastname];
