@@ -158,10 +158,10 @@ function Users() {
           <div className='edit-user'>
             <h1>Edit User</h1>
             <button className='CloseWindow' onClick={closeManuallyWindow}>
-            <img src={CloseMenuIcon}></img>
+            <img src={CloseMenuIcon} alt='close'></img>
             </button>
             <button className='DeleteUserBtn' onClick={handleDelete}>
-            <img src={DeleteIcon}></img>
+            <img src={DeleteIcon} alt='delete'></img>
             </button>
             <p>
               <b>{selectedUser.userFullname}</b>{' '}
@@ -239,7 +239,7 @@ function Users() {
                       onChange={(e) => handleInputChange('userPassword', e.target.value)}
                     >
                     </input>
-                    <button className='showpassword' onClick={togglePassword}>{showPassword ? <img src={PasswordOn}></img> : <img src={PasswordOff}></img>}</button>
+                    <button className='showpassword' onClick={togglePassword}>{showPassword ? <img src={PasswordOn} alt='show'></img> : <img src={PasswordOff} alt='hide'></img>}</button>
                   </div>
 
                   <button className='bluebtn' onClick={handleEdit} disabled={isSaveButtonDisabled}>

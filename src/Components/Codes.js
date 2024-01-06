@@ -7,7 +7,6 @@ function Codes() {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedBarcode, setSelectedBarcode] = useState(null);
   const [selectedQty, setSelectedQty] = useState(null);
-  const [errorMessage, setErrorMessage] = useState('');
 
   const openManuallyWindow = (barcode) => {
     setSelectedBarcode(barcode.barcode);
@@ -34,20 +33,10 @@ function Codes() {
       .then(response => response.json())
       .then(data => {
         console.log('Server response:', data);
-
-        // Check if there is an error in the server response
-        if (data.status === 'error') {
-          // Set the error message with the user's first name
-          setErrorMessage(data.message);
-        } else {
-          // Clear any previous error messages
-          setErrorMessage('');
-        }
       })
       .catch(error => {
         console.error('Error sending barcode to server:', error);
         // Set an error message for network or server errors
-        setErrorMessage('An error occurred while communicating with the server.');
       });
     // After deletion, close the window
     closeManuallyWindow();
@@ -113,7 +102,7 @@ function Codes() {
             <div className='Add-Manually-Window'>
               <h1>Delete</h1>
               <button className='CloseWindow' onClick={closeManuallyWindow}>
-              <img src={CloseMenuIcon}></img>
+              <img src={CloseMenuIcon} alt='close'></img>
               </button>
               <p>Are you sure you want to delete <br /> <b>{selectedBarcode}</b>  ?</p>
               {selectedBarcode && (

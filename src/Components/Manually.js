@@ -70,7 +70,7 @@ function AddManualy() {
         <div className='overlay' onClick={closeManuallyWindow}></div>
         <div className='Add-Manually-Window'>
             <h1>Add Manually</h1>
-            <button className='CloseWindow' onClick={closeManuallyWindow} ><img src={CloseMenuIcon}></img></button>
+            <button className='CloseWindow' onClick={closeManuallyWindow} ><img src={CloseMenuIcon} alt='close'></img></button>
           <form>
               <input
                 type='text'

@@ -189,7 +189,7 @@ const BarcodeScanner = ({ onInsertionComplete }) => {
             <div className='overlay' onClick={closeManuallyWindow}></div>
             <div className='Add-Manually-Window'>
               <h1>Add Manually</h1>
-              <button className='CloseWindow' onClick={closeManuallyWindow}><img src={CloseMenuIcon}></img></button>
+              <button className='CloseWindow' onClick={closeManuallyWindow}><img src={CloseMenuIcon} alt='close'></img></button>
                 <input
                   type='text'
                   name="barcode"
@@ -220,7 +220,7 @@ const BarcodeScanner = ({ onInsertionComplete }) => {
             <div className='overlay' onClick={closeRMAwindow}></div>
             <div className='Add-Manually-Window'>
               <h1>Add RMA Item</h1>
-              <button className='CloseWindow' onClick={closeRMAwindow}><img src={CloseMenuIcon}></img></button>
+              <button className='CloseWindow' onClick={closeRMAwindow}><img src={CloseMenuIcon} alt='close'></img></button>
                 <input
                   type='text'
                   name="barcode"

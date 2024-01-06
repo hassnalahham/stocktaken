@@ -43,7 +43,6 @@ if ($result->num_rows > 0) {
     if($user['status'] === 'Active'){
         // Start the session
         session_start();
-
         // Set session variables
         $_SESSION['isLoggedIn'] = true;
         $_SESSION['userId'] = $user['user_id'];

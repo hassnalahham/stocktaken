@@ -4,7 +4,7 @@
 }
 
 @font-face {
-    font-family: 'Code 128';
+    font-family: 'Code128';
     src: url('../Assest/Fonts/code-128.woff2') format('woff2');
   }
 
@@ -16,7 +16,7 @@
   }
 
 .barcode39 {
-    font-family: 'Code 128' , sans-serif;
+    font-family: 'Code128' , sans-serif;
     font-size: 6em;
     border: 1px solid #ccc;
     padding: 0.5vh 0 3vh 0;

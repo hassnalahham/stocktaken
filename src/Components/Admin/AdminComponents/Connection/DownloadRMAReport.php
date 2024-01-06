@@ -20,28 +20,14 @@ $sessionRMA = $_SESSION['SessionNameRMA'];
 // Fetch data from PHPMyAdmin table
 $sql = "
 SELECT 
-    COALESCE(o.barcode, n.barcode) AS barcode,
-    COALESCE(n.rma, 0) AS rma,
+    o.barcode,
+    o.rma,
     CASE 
         WHEN o.barcode IS NOT NULL AND n.barcode IS NOT NULL AND o.rma = n.rma THEN 'Matched'
         ELSE 'Unmatched'
     END AS match_status
 FROM $sessionRMA o
-LEFT JOIN barcodes n ON o.barcode = n.barcode
-
-UNION
-
-SELECT 
-    COALESCE(o.barcode, n.barcode) AS barcode,
-    COALESCE(n.rma, 0) AS rma,
-    CASE 
-        WHEN o.barcode IS NOT NULL AND n.barcode IS NOT NULL AND o.rma = n.rma THEN 'Matched'
-        ELSE 'Unmatched'
-    END AS match_status
-FROM $sessionRMA o
-RIGHT JOIN barcodes n ON o.barcode = n.barcode
-WHERE o.barcode IS NULL;
-
+LEFT JOIN barcodes n ON o.rma = n.rma;
 ";
 $result = mysqli_query($conn, $sql);
 
@@ -54,7 +40,7 @@ header('Cache-Control: max-age=0');
 $output = fopen('php://output', 'w');
 
 // Output column headers
-$columnHeaders = array("Barcode", "RMA"); // Replace with your actual column names
+$columnHeaders = array("Barcode", "RMA" , "Status"); // Replace with your actual column names
 fputcsv($output, $columnHeaders);
 
 // Output data

@@ -50,13 +50,13 @@ function Header() {
           </header>
       <header className='mobilenavbar'>
          <h1>Scanner ST</h1>
-         <button onClick={OpenMenu}><img src={MenuIcon}></img></button>
+         <button onClick={OpenMenu}><img src={MenuIcon} alt='open'></img></button>
          {isOpen ? ( 
          <>
          <div className='overlay' onClick={CloseMenu}></div>
          <div className='mobilenavminu'>
             <h1> Menu </h1>
-            <button onClick={CloseMenu}><img src={CloseMenuIcon}></img></button>
+            <button onClick={CloseMenu}><img src={CloseMenuIcon} alt='close'></img></button>
             <Link to="./" onClick={CloseMenu} className={location.pathname === "/" ? "activeRoute" : "navlink"} >Scan</Link>
             <Link to="./Codes" onClick={CloseMenu} className={location.pathname === "/Codes" ? "activeRoute" : "navlink"} >Codes</Link>
             <Link to="./Profile" onClick={CloseMenu} className={location.pathname === "/Profile" ? "activeRoute" : "navlink"} >Profile</Link>

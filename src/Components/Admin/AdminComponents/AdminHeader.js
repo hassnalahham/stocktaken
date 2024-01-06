@@ -96,13 +96,13 @@ function Header() {
       <header className='mobilenavbar'>
       <h1>Scanner ST</h1>
         
-         <button onClick={OpenMenu}><img src={MenuIcon}></img></button>
+         <button onClick={OpenMenu}><img src={MenuIcon} alt='open'></img></button>
          {isOpen ? ( 
          <>
          <div className='overlay' onClick={CloseMenu}></div>
          <div className='mobilenavminu'>
             <h1> Menu </h1>
-            <button onClick={CloseMenu}><img src={CloseMenuIcon}></img></button>
+            <button onClick={CloseMenu}><img src={CloseMenuIcon} alt='close'></img></button>
             {isSession === false  ? 
              <>
              <Link to="./Session" onClick={CloseMenu} className={location.pathname === "/Session" ? "activeRoute" : "navlink"} >Session</Link>

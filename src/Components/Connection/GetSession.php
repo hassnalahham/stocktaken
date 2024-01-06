@@ -29,11 +29,11 @@ if (isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn'] === true) {
                 $formatted_time_difference = gmdate("H:i:s", $time_difference);
                 $_SESSION['SessionName'] = $row['session_name'];
                 $_SESSION['SessionNameRMA']= $row['session_rma'];
-                
+            // Create Session Info Array
             $sessionInfo = [
                 'SessionName' => $row['session_name'],
-                'SessionRMA' => $row['session_rma'],
                 'SessionStatus' => $row['status'],
+                'SessionRMA' => $row['session_rma'],
                 'SessionTime' => $formatted_time_difference,
             ];
             echo json_encode(['success' => true, 'session' => $sessionInfo]);

@@ -50,11 +50,18 @@ function Admin() {
   };
   
   useEffect(() => {
-    fetchUserInfo();
-  }, []);
-  
+    const fetchData = async () => {
+      await fetchUserInfo();
+      setTimeout(fetchData, 60000);
+    };
 
-  
+    fetchData(); // Initial fetch
+
+    // Cleanup function
+    return () => {
+      clearTimeout(fetchData); // Clear timeout when component unmounts
+    };
+  }, [fetchUserInfo]); // Include fetchUserInfo in the dependency array
 
    
 
